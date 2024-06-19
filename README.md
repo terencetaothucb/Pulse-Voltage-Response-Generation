@@ -3,6 +3,70 @@ In the retired batteries sustainable utilization scenario, preprocessing steps s
 # Publication
 [Generative-learning-assisted Rapid State-of-Health Estimation for Sustainable Battery Recycling with Random Retirement Conditions](To be published)
 # Description
+## Overview
+Retired batteries exhibit high heterogeneities in cathode material types, physical formats, capacity designs, and historical usages. Here we tested 353 retired lithium-ion batteries, covering 5 capacity designs, 3 cathode types, 3 physical formats, and 5 historical usages.
+### Battery Types
+Nominal Capacity (Ah)|Cathode Material|Physical Format|Historical Usage|Quantity|Raw Data|
+|:--|:--|:--|:--|:--|:--|
+|NMC|2.6|Cylinder|Lab Accelerated Aging|67|×|
+|LMO|10|Pouch|HEV1|95|√|
+|NMC|15|Pouch|BEV1|83|√|
+|NMC|21|Pouch|BEV2|52|√|
+|LFP|35|Square Aluminum Shell|HEV2|56|√|
+## Experiment Details
+The experiment is divided into the following three steps: capacity calibration, SOC conditioning, and pulse injection.  
+Tests are performed with BAT-NEEFLCT-05300-V010, NEBULA, Co, Ltd, and the air conditioner temperature is set at 25℃.  
+Only EV-retired batteries (LMO 10 Ah, NMC 15 Ah, NMC 21 Ah and LFP, 35Ah) were subject to this test procedure. Go to Supplementary Note 3 in Supplementary Information for experiment details of Lab Accelerated Aging batteries (NMC 2.6 Ah).
+### Step 1 : Capacity Calibration
+We use the constant current (CC) discharge method as the gold standard for determining the capacity of retired batteries. Even considering the different initial state of charge (SOC) distributions of retired batteries, we use a unified method of first constant current constant voltage (CCCV) charging and then CC discharging to determine the capacity of retired batteries.  
+First, the retired batteries are charged to the upper cut-off voltage using a 1C constant current, then charged using constant voltage until the current drops to 0.05 C. Third, they are then discharged to the lower cut-off voltage using a 1C constant current. We use the actual discharge capacity as the calibrated battery capacity and then let the battery stand for 20 minutes before SOC conditioning and pulse injection.
+Cathode Material|Nominal Capacity (Ah)|Cut-Off Voltage for Dis/Charging (V)|
+|:--|:--|:--|
+|LMO|10|2.0/4.2|
+|NMC|15|2.7/4.2|
+|NMC|21|2.7/4.2|
+|LFP|35|2.5/3.65|
+### Step 2 : SOC Conditioning
+After completing the rest of the calibrated battery, SOC conditioning is performed to inject pulses at the desired SOC levels. Charge the retired battery with a constant current of 1C for 3 minutes to 5% SOC, and then cut off the charging current. The battery is then left to stand for 10 minutes to rest, expecting the battery to return to a steady state in preparation for subsequent pulse injection. 
+### Step 3 : Pulse Injection
+Then, perform multiple consecutive pulse injections with different pulse widths. The pulse width and pulse resting time are as shown in the following Table, that is, for each pulse width and resting time (each row of the table), we consecutively perform pulse injection with pulse amplitude being 0.5-1-1.5-2-2.5(C) in order, including positive and negative pulses. Note that positive and negative pulses alternate to cancel the equivalent energy injection. For instance, at the 30ms pulse width, we inject 0.5C positive current pulse, then let the battery rest for 450ms, and then inject 0.5C negative current pulse, then again let the battery rest for 450ms. Other remaining pulses with different amplitudes follow the rest of the previous pulse injections. When the last pulse and rest are finished, all the required experiments at 30ms pulse width are finished. Repetitive experiments are performed until the remaining pulse widths are exhausted, indicating all pulse injections at 5% SOC are completed. Then charge the retired battery with a constant current of 1C for another 3 minutes to 10% SOC, followed by the same procedure as explained above.  
+Repeat Step 2 and Step 3 until the SOC conditioning regions are exhausted.
+|Pulse Width t1|Pulse Rest Time t2|Pulse Amplitude (±C)|
+|:--|:--|:--|
+|30ms|450ms|0.5-1-1.5-2-2.5|
+|50ms|750ms|0.5-1-1.5-2-2.5|
+|70ms|1.05s|0.5-1-1.5-2-2.5|
+|100ms|1.5s|0.5-1-1.5-2-2.5|
+|300ms|4.5s|0.5-1-1.5-2-2.5|
+|500ms|7.5s|0.5-1-1.5-2-2.5|
+|700ms|10.5s|0.5-1-1.5-2-2.5|
+|1s|15s|0.5-1-1.5-2-2.5|
+|3s|45s|0.5-1-1.5-2-2.5|
+|5s|75s|0.5-1-1.5-2-2.5|
+#### SOC Range for Test
+The range of SOC conditioning is determined by a previous simply estimated SOH of the retired battery. Specifically, the upper bound of the SOC conditioning region is lower than the previous simply estimated SOH value of the retired battery for at least 0.05. For instance, when the retired battery has a previous simply estimated SOH between 0.5 and 0.55, then the SOC conditioning region will be 0.05 to 0.45, with a grain of 0.05. The SOC range information in plan is recorded on the filename of each battery.
+#### Voltage Protection
+In addition, we set voltage protection during pulse injection to ensure the safety of the experiment. The specific voltage protection parameters are consistent with those in the following Table.
+Cathode Material|Nominal Capacity (Ah)|Protection Voltage for Dis/Charging (V)|
+|:--|:--|:--|
+|LMO|10|1.95/4.3|
+|NMC|15|2.65/4.25|
+|NMC|21|2.65/4.3|
+|LFP|35|2.45/3.7|
+## 介绍如何使用程序
+### 特征关系 U1-U41 TO C
 
-## Access
+## Raw Data
+### Filename Format
+mat_C_cap_B_no._SOC_soc range low bound-soc range high bound_Part_1/2-1/2_ID_id.xlsx
+#### Example
+LMO_C_10_B_1_SOC_5-55_Part_1-1_ID_PIP15828A00225770.xlsx  
+NMC_C_21_B_14_SOC_5-90_Part_1-2_ID_02LCC02100101A87Y0026421.xlsx  
+NMC_C_21_B_14_SOC_5-90_Part_2-2_ID_02LCC02100101A87Y0026421.xlsx  
+LFP_C_35_B_56_SOC_5-90_Part_1-2_ID_56号.xlsx  
+### 提前结束
+
+### Voltage Protection
+If the voltage exceeds the voltage protection range, the current pulse step will be stopped immediately end and jump to the subsequent steps.
+# Access
 Access the raw and processed datasets [here](https://zenodo.org/uploads/11671216) under the [MIT licence](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/LICENSE). Correspondence to [Terence (Shengyu) Tao](terencetaotbsi@gmail.com) and CC to Prof. [Xuan Zhang](xuanzhang@sz.tsinghua.edu.cn) and [Guangmin Zhou](guangminzhou@sz.tsinghua.edu.cn) when you use, or have any inquiries.
