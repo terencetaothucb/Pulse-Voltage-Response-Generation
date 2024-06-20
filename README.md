@@ -63,7 +63,7 @@ The range of SOC conditioning is determined by a previously simply estimated SOH
 |0.35-0.40|[5,30]|
 |<0.35|Not Found|
 
-The planned SOC range is recorded on the [filename](#filename-format) of each battery.
+The planned SOC range is recorded with a [fixed formaton on the filename](#filename-format) of each battery.
 #### Voltage Protection
 In addition, we set voltage protection during pulse injection to ensure the safety of the experiment. The specific voltage protection parameters are consistent with those in the following Table.
 Cathode Material|Nominal Capacity (Ah)|Protection Voltage for Dis/Charging (V)|
