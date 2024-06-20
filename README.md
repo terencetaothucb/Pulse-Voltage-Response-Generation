@@ -77,6 +77,8 @@ Once the voltage during pulse injection exceeds the protection range, the curren
 ##### SOC Deviation
 The unequal charged and discharged capacity in adjacent positive and negative pulses with the same pulse intensity and planned pulse time caused by voltage protection will lead to an accumulatable deviation in SOC to subsequent pulse test. Fortunately, this SOC deviation is usually very slight due to the extremely short pulse time with no more than 5s. Moreover, the voltage may exceed the protection range generally when the tested SOC is close to the SOH value of the battery. In this article, we only used data from 5%-50% SOC. Considering that the SOH of the vast majority of batteries is above 0.6, the SOC deviation used in this article can be ignored for simplicity. However, if you want to use data at higher SOC level, you may need to pay attention to this SOC deviation issue to avoid introducing unnecessary errors into machine-learning models.
 ## Raw Data
+### File Sturcture
+The raw data file is recorded in Chinese. Here we provide an English annotated version.
 ### Filename Format
 mat_C_cap_B_no._SOC_soc range lower bound-soc range upper bound_Part_1/2-1/2_ID_id.xlsx
 #### Example
@@ -86,8 +88,7 @@ NMC_C_21_B_14_SOC_5-90_Part_2-2_ID_02LCC02100101A87Y0026421.xlsx
 LFP_C_35_B_56_SOC_5-90_Part_1-2_ID_56号.xlsx
 ##### Part Split Explanation
 Sometimes the raw data is split into 2 parts due to the ultra long measurement time and ultra large file size. In this case, only several '记录层' or record layers will be placed in the second part.
-### File Sturcture
-The raw data file is recorded in Chinese. Here we provide an English annotated version.
+
 
 ### 提前结束
 
