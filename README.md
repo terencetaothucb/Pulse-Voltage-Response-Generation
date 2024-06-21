@@ -63,7 +63,7 @@ The range of SOC conditioning is determined by a calibrated SOH of the retired b
 |0.35-0.40|[5,30]|
 |<0.35|Not Found|
 
-The planned SOC range is recorded with a [fixed format on the filename](#filename-format) of each battery. 
+The planned SOC range is recorded with a [fixed format on the filename](#3.1.-Filename-Format) of each battery. 
 #### Protection Voltage
 We set protection voltage during pulse injection to ensure the safety of the experiment. The specific protection voltage parameters are consistent with those in the following Table. 
 Cathode Material|Nominal Capacity (Ah)|Discharging/Charging (V)|
@@ -77,32 +77,32 @@ If the oscillation voltage during pulse injection exceeds the protection range, 
 #### SOC Deviation
 The unequal charged and discharged capacity in adjacent positive and negative pulses with the same pulse intensity and planned pulse time caused by voltage protection will lead to an accumulatable deviation in SOC to subsequent pulse test. Fortunately, this SOC deviation is usually very slight due to the extremely short pulse time with no more than 5s. Moreover, the voltage may exceed the protection range generally when the tested SOC is close to the SOH value of the battery. In [our publication](To be published), we only used data from 5-50% SOC. Considering that the SOH of the vast majority of batteries is above 0.6, the SOC deviation used in [our publication](To be published) can be ignored for simplicity. However, if you want to use data at higher SOC level, you may need to pay attention to this SOC deviation issue to avoid introducing unnecessary errors into machine-learning models.
 ## 3. Raw Data
-#### Filename Format
+### 3.1. Filename Format
 mat_C_cap_B_no._SOC_soc range lower bound-soc range upper bound_Part_1/2-1/2_ID_id.xlsx
 #### Example
 LMO_C_10_B_1_SOC_5-55_Part_1-1_ID_PIP15828A00225770.xlsx  
 NMC_C_21_B_14_SOC_5-90_Part_1-2_ID_02LCC02100101A87Y0026421.xlsx  
 NMC_C_21_B_14_SOC_5-90_Part_2-2_ID_02LCC02100101A87Y0026421.xlsx  
-LFP_C_35_B_56_SOC_5-90_Part_1-2_ID_56号.xlsx
+LFP_C_35_B_56_SOC_5-90_Part_1-2_ID_56号.xlsx  
 
-Instance: LMO_C_10_B_1_SOC_5-55_Part_1-1_ID_PIP15828A00225770.xlsx refer to the testing of LMO 10Ah battery with index 1 (also indexed by the unique ID: PIP15828A00225770), where the testing SOC region is from 5% to 55%. The testing have 1 out of 1 file.
+**Instance:** LMO_C_10_B_1_SOC_5-55_Part_1-1_ID_PIP15828A00225770.xlsx refer to the testing of LMO 10Ah battery with index 1 (also indexed by the unique ID: PIP15828A00225770), where the testing SOC region is from 5% to 55%. The testing have 1 out of 1 file.
 #### File Part Split Explanation
-Sometimes the raw data is split into 2 parts due to the ultra long measurement time and ultra large file size. In this case, only several record layers (i.e. '记录层') will be placed in the second part.
+Sometimes the raw data is split into 2 parts due to the ultra long measurement time and ultra large file size. In this case, only several record layers (i.e. '记录层') will be placed in the second part.  
 
-Instance: NMC_C_21_B_14_SOC_5-90_Part_1-2_ID_02LCC02100101A87Y0026421.xlsx refer to the testing of NMC 21Ah battery with index 14 (also indexed by the unique ID: 02LCC02100101A87Y0026421), where the testing SOC region is from 5% to 90%. The testing file is the first file 1 out of 2 files.
+**Instance:** NMC_C_21_B_14_SOC_5-90_Part_1-2_ID_02LCC02100101A87Y0026421.xlsx refer to the testing of NMC 21Ah battery with index 14 (also indexed by the unique ID: 02LCC02100101A87Y0026421), where the testing SOC region is from 5% to 90%. The testing file is the first file 1 out of 2 files.
 ## 4. Feature Engineering
 We extracted U1-U21 features under 5-50% SOC, 5s pulse width for [our publication](To be published). Here, U1 is the steady state open cicrcuit voltage (OCV) after 10 mins rest. U2-U9 refers to voltage at the beginning and end of 0.5C positive pulse, rest, 0.5C negative pulse, rest, 1C positive pulse, rest, 1C negative pulse, rest, 1.5C positive pulse respectively. The features are extracted from the turning points, i.e., the points with zero second-order derivative of the voltage response curve after the pulse injection. The Consequently, 21 feature points, from U1 to U21, are extracted. The recording frequency for the raw data is 100 Hz. The rest time is 25 seconds between each pulse in C-rate. Note that the term C stands for charge (discharge) rate when a 1 hour of charge (discharge) is performed. The ambient temperature is controlled at 25 ℃. 
 
-
-<img src="https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/Feature U1-U21 Description.png"/>
-
+<p align="center">
+  <img src="Feature U1-U21 Description.png" alt="示例图片">
+</p>
 
 ## 5. Feature Engineering Code
 Feature engineering starting from raw data requires three steps. The first step is to extract the workstep layer (i.e. '工步层') from the raw data of each battery. The second step is to extract the required features from the step layers of each battery. The third step is to integrate the features from different batteries with the same material into one or several files.  
 For reproducing, download the [raw data](https://zenodo.org/uploads/11671216) and programs in this repository. Manually create folders to store processing and processed data. Update folder addresses in each program. Adjust the cap_mat variable in the program and run to reproduce the feature engineering results of different batteries. All possible adjustments are listed at the top of the code. The first step takes a long time and may take several hours or days to complete. The second step can be completed within one hour. The third step can be completed almost immediately.
-##### Notice
+#### Notice
 Due to unknown reasons, the raw data of battery PIP15827A00221240 (10Ah LMO) has one more rest (i.e. '静置') step than normal. To ensure the correctness of feature extraction, please manually merge row 2020 (the first rest (i.e. '静置') step) and 2021 (the second rest (i.e. '静置') step) in the extracted workstep layer file LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx after completing the first step and before the second step. In detail, copy the column K element (3.9837) of row 2020 to replace the column K element of row 2021, then delete row 2020. If you feel that doing so is too troublesome, you can choose to discard battery PIP15827A00221240 directly by deleteing file LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx.
-### Adjustablity: Extract Other Features 
+### Adjustability: Extract Other Features 
 We extracted U1-U21 features under 5-50% SOC, 5s pulse time or pulse width for [our publication](To be published). Moreover, our feature engineering code has strong scalability. You can adjust the settings at the top of the second and third step programs to extract different features. Remember to keep the settings of the second and third steps consistent.
 # Access
 Access the raw data and processed features [here](https://zenodo.org/uploads/11671216) under the [MIT licence](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/LICENSE). Correspondence to [Terence (Shengyu) Tao](terencetaotbsi@gmail.com) and CC to Prof. [Xuan Zhang](xuanzhang@sz.tsinghua.edu.cn) and [Guangmin Zhou](guangminzhou@sz.tsinghua.edu.cn) when you use, or have any inquiries.
