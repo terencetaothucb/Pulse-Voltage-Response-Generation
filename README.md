@@ -63,7 +63,7 @@ The range of SOC conditioning is determined by a calibrated SOH of the retired b
 |0.35-0.40|[5,30]|
 |<0.35|Not Found|
 
-The planned SOC range is recorded with a [fixed format on the filename](#Filename-Format) of each battery. 
+The planned SOC range is recorded with a [fixed format on the filename](#Example) of each battery. 
 #### Protection Voltage
 We set protection voltage during pulse injection to ensure the safety of the experiment. The specific protection voltage parameters are consistent with those in the following Table. 
 Cathode Material|Nominal Capacity (Ah)|Discharging/Charging (V)|
@@ -77,7 +77,7 @@ If the oscillation voltage during pulse injection exceeds the protection range, 
 #### SOC Deviation
 The unequal charged and discharged capacity in adjacent positive and negative pulses with the same pulse intensity and planned pulse time caused by voltage protection will lead to an accumulatable deviation in SOC to subsequent pulse test. Fortunately, this SOC deviation is usually very slight due to the extremely short pulse time with no more than 5s. Moreover, the voltage may exceed the protection range generally when the tested SOC is close to the SOH value of the battery. In [our publication](To be published), we only used data from 5-50% SOC. Considering that the SOH of the vast majority of batteries is above 0.6, the SOC deviation used in [our publication](To be published) can be ignored for simplicity. However, if you want to use data at higher SOC level, you may need to pay attention to this SOC deviation issue to avoid introducing unnecessary errors into machine-learning models.
 ## 3. Raw Data
-### Filename Format
+### 3.1. Filename Format
 mat_C_cap_B_no._SOC_soc range lower bound-soc range upper bound_Part_1/2-1/2_ID_id.xlsx
 #### Example
 LMO_C_10_B_1_SOC_5-55_Part_1-1_ID_PIP15828A00225770.xlsx  
