@@ -90,12 +90,12 @@ Instance: LMO_C_10_B_1_SOC_5-55_Part_1-1_ID_PIP15828A00225770.xlsx refer to the 
 Sometimes the raw data is split into 2 parts due to the ultra long measurement time and ultra large file size. In this case, only several record layers (i.e. '记录层') will be placed in the second part.
 
 Instance: NMC_C_21_B_14_SOC_5-90_Part_1-2_ID_02LCC02100101A87Y0026421.xlsx refer to the testing of NMC 21Ah battery with index 14 (also indexed by the unique ID_02LCC02100101A87Y0026421), where the testing SOC region is from 5% to 90%. The testing file is the first file 1 out of 2 files.
-## 4. Feature engineering
+## 4. Feature Engineering
 We extracted U1-U21 features under 5-50% SOC, 5s pulse width for [our publication](To be published). Here, U1 is the steady state open cicrcuit voltage (OCV) after 10 mins rest. U2-U9 refers to voltage at the beginning and end of 0.5C positive pulse, rest, 0.5C negative pulse, rest, 1C positive pulse, rest, 1C negative pulse, rest, 1.5C positive pulse respectively. The features are extracted from the turning points, i.e., the points with zero second-order derivative of the voltage response curve after the pulse injection. The Consequently, 21 feature points, from U1 to U21, are extracted. The recording frequency for the raw data is 100 Hz. The rest time is 25 seconds between each pulse in C-rate. Note that the term C stands for charge (discharge) rate when a 1 hour of charge (discharge) is performed. The ambient temperature is controlled at 25 ℃. 
 
 ![Feature extraction description](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/assets/161430150/5a67ef25-baae-4e86-926e-ee6c64607800)  
 
-## 5. Feature Engineering code
+## 5. Feature Engineering Code
 Feature engineering starting from raw data requires three steps. The first step is to extract the workstep layer (i.e. '工步层') from the raw data of each battery. The second step is to extract the required features from the step layers of each battery. The third step is to integrate the features from different batteries with the same material into one or several files.  
 For reproducing, download the [raw data](https://zenodo.org/uploads/11671216) and programs in this repository. Manually create folders to store processing and processed data. Update folder addresses in each program. Adjust the cap_mat variable in the program and run to reproduce the feature engineering results of different batteries. All possible adjustments are listed at the top of the code. The first step takes a long time and may take several hours or days to complete. The second step can be completed within one hour. The third step can be completed almost immediately.
 ##### Notice
