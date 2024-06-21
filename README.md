@@ -1,5 +1,5 @@
 # Pulse Voltage Response Generation: PulseBat Dataset
-Retired batteries have been presenting a severe sustainbility challenge worldwide. One promising sustainable solution is reuse and recycling, but state of health (SOH) information for residual value evaluation retrieved from charge-discharge approaches are still time-consuming and energy-intensive. Developing a data-driven, rapid, and sustainable SOH estimation method for reuse and recycling decision-making is crucial. Here we open-source the collected PulseBat dataset for pulse voltage response generation of the retired batteries across random retirement conditions, i.e., state of charge (SOC) conditions, facilitating dowmstream SOH estimation tasks. The PulseBat dataset was collected on diversified cathode material types, historical usages, physical formats and capacity designs to deliberately intorduce data heterogeneities, which is a common challgenge in retired battery reuse and recycling scenarios. Xiamen Lijing New Energy Technology Co., Ltd., collected the dataset. The collaboration team at Tsinghua Berkeley Shenzhen Institute (TBSI) processed this dataset. AI and battery community will find the PulseBat dataset useful for SOH estimation of retired batteries under transfer learning, continual learning, and generative learning settings.
+Retired batteries have been presenting a severe sustainability challenge worldwide. One promising sustainable solution is reuse and recycling, but state of health (SOH) information for residual value evaluation retrieved from charge-discharge approaches are still time-consuming and energy-intensive. Developing a data-driven, rapid, and sustainable SOH estimation method for reuse and recycling decision-making is crucial. Here we open-source the collected PulseBat dataset for pulse voltage response generation of the retired batteries across random retirement conditions, i.e., state of charge (SOC) conditions, facilitating downstream SOH estimation tasks. The PulseBat dataset was collected on diversified cathode material types, historical usages, physical formats and capacity designs to deliberately introduce data heterogeneities, which is a common challgenge in retired battery reuse and recycling scenarios. Xiamen Lijing New Energy Technology Co., Ltd., collected the dataset. The collaboration team at Tsinghua Berkeley Shenzhen Institute (TBSI) processed this dataset. AI and battery community will find the PulseBat dataset useful for SOH estimation of retired batteries under transfer learning, continual learning, and generative learning settings.
 
 # 1. Publication
 [Generative-learning-assisted Rapid State-of-Health Estimation for Sustainable Battery Recycling with Random Retirement Conditions](To be published)
@@ -7,7 +7,7 @@ Retired batteries have been presenting a severe sustainbility challenge worldwid
 ## 2.1. Overview
 Distinct from the electric vehicle use scenarios, retired batteries exhibit considerable heterogeneities in cathode material types, historical usages, physical formats and capacity designs. We physically tested 270 retired lithium-ion batteries, covering 3 cathode types, 4 historical usages, 3 physical formats, and 4 capacity designs.
 #### Battery Types
-Cathode Material|Nominal Capacity (Ah)|Physical Format|Historical Usage|Quantity|
+|Cathode Material|Nominal Capacity (Ah)|Physical Format|Historical Usage|Quantity|
 |:--|:--|:--|:--|:--|
 |NMC|2.1|Cylinder|Lab Accelerated Aging|67 (from 12 physical batteries)|
 |LMO|10|Pouch|HEV1|95|
@@ -63,7 +63,7 @@ The range of SOC conditioning is determined by a calibrated SOH of the retired b
 |0.35-0.40|[5,30]|
 |<0.35|Not Found|
 
-The planned SOC range is recorded with a [fixed format on the filename](#3.1.%20Filename%20Format) of each battery. 
+The planned SOC range is recorded with a [fixed format on the filename](#3-Raw Data) of each battery. 
 #### Protection Voltage
 We set protection voltage during pulse injection to ensure the safety of the experiment. The specific protection voltage parameters are consistent with those in the following Table. 
 Cathode Material|Nominal Capacity (Ah)|Discharging/Charging (V)|
@@ -91,30 +91,38 @@ Sometimes the raw data is split into 2 parts due to the ultra long measurement t
 
 **Instance:** NMC_C_21_B_14_SOC_5-90_Part_1-2_ID_02LCC02100101A87Y0026421.xlsx refer to the testing of NMC 21Ah battery with index 14 (also indexed by the unique ID: 02LCC02100101A87Y0026421), where the testing SOC region is from 5% to 90%. The testing file is the first file 1 out of 2 files.
 ## 4. Feature Engineering
-We extracted U1-U21 features under 5-50% SOC, 5s pulse width for [our publication](To be published). Here, U1 is the steady state open cicrcuit voltage (OCV) after 10 mins rest. U2-U9 refers to voltage at the beginning and end of 0.5C positive pulse, rest, 0.5C negative pulse, rest, 1C positive pulse, rest, 1C negative pulse, rest, 1.5C positive pulse respectively. The features are extracted from the turning points, i.e., the points with zero second-order derivative of the voltage response curve after the pulse injection. The Consequently, 21 feature points, from U1 to U21, are extracted. The recording frequency for the raw data is 100 Hz. The rest time is 25 seconds between each pulse in C-rate. Note that the term C stands for charge (discharge) rate when a 1 hour of charge (discharge) is performed. The ambient temperature is controlled at 25 ℃. 
+We extracted U1-U21 features under 5-50% SOC, 5s pulse width for [our publication](To be published). The features are extracted from turning points, i.e., the points at the beginning and end of pulse injection and rest workstep on the voltage response curve. U1 is the steady state open cicrcuit voltage (OCV) after 10 mins rest. U2-U9 refers to voltage at the beginning and end of 0.5C positive pulse, rest, 0.5C negative pulse, rest, 1C positive pulse, rest, 1C negative pulse, rest, 1.5C positive pulse respectively. The rest time is 25 seconds between each pulse in C-rate. Note that the term C stands for charge (discharge) rate when a 1 hour of charge (discharge) is performed. The recording frequency for step 3 in the raw data is 100 Hz. The ambient temperature is controlled at 25 ℃. 
 
 <p align="center">
   <img src="Feature U1-U21 Description.png" alt="示例图片">
 </p>
 
-## 5. Feature Engineering Code
-Feature engineering starting from raw data requires three steps.  
-[Step 1](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_1_extract%20workstep%20sheet.py) is to extract the workstep layer (i.e. '工步层') from the raw data of each battery. If step 1 correctly completed, you will get workstep layer files with several hundred KBs:  
+## 5. Feature Engineering Method
+### 5.1. Reproduction
+Feature engineering starting from raw data requires three steps.
+
+**Step 1** is to extract the workstep layer (i.e. '工步层') from the raw data of each battery. Step 1 takes a long time and may take several hours or days to complete. If step 1 correctly completed, you will get workstep layer files, each with several hundred KBs:  
+
 <p align="center">
-  <img src="Files%20obtained%20after%20completing%20Step%201.png" alt="示例图片">
+  <img src="Files%20obtained%20after%20completing%20Step%201.png">
 </p>
-[Step 2](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_2_feature%20extraction_adjustable.py) is to extract the required features from the step layers of each battery. If step 2 correctly completed, you will get 10 features from each battery:  
+
+**Step 2** is to extract the required features from the step layers of each battery. Step 2 can be completed within one hour. If step 2 correctly completed, you will get 10 features from each battery:  
+
 <p align="center">
-  <img src="Files%20obtained%20after%20completing%20Step%202.png" alt="示例图片">
+  <img src="Files%20obtained%20after%20completing%20Step%202.png">
 </p>
-[Step 3](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_3_feature%20collection_adjustable.py) is to integrate the features from different batteries with the same material into one files. If step 3 correctly completed, you will obtain proccesed features. The first worksheet of file contains features under all SOC condition. The subsequent worksheet includes features under a single SOC condition. Subsequent worksheet organizes features under a single SOC condition, separately.  
+
+**Step 3** is to integrate features from different batteries with same type into one file. Step 3 can be completed almost immediately. If step 3 correctly completed, you will obtain proccesed features. The first worksheet 'SOC ALL' contains features under all SOC condition. Subsequent worksheets 'SOCi' include features under a single SOC condition, separately.  
+
 <p align="center">
-  <img src="Files%20obtained%20after%20completing%20Step%203.png" alt="示例图片">
+  <img src="Files%20obtained%20after%20completing%20Step%203.png">
 </p>
-For reproducing, download the [raw data](https://zenodo.org/uploads/11671216) and programs in this repository. Manually create folders to store processing and processed data. Update folder addresses in each program. Adjust the cap_mat variable in the program and run to reproduce the feature engineering results of different batteries. All possible adjustments are listed at the top of the code. The first step takes a long time and may take several hours or days to complete. The second step can be completed within one hour. The third step can be completed almost immediately.
+
+For reproduction, download the [raw data](https://zenodo.org/uploads/11671216) and programs for [Step 1](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_1_extract%20workstep%20sheet.py), [Step 2](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_2_feature%20extraction_adjustable.py), [Step 3](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_3_feature%20collection_adjustable.py) in this repository. Manually create folders for each step and each battery type to store processing and processed data. Update folder addresses in each program. Adjust the cap_mat variable in the program and run to reproduce the feature engineering results of different battery types. All possible adjustments are listed at the top of each code.
 #### Notice
 Due to unknown reasons, the raw data of battery PIP15827A00221240 (10Ah LMO) has one more rest (i.e. '静置') step than normal. To ensure the correctness of feature extraction, please manually merge row 2020 (the first rest (i.e. '静置') step) and 2021 (the second rest (i.e. '静置') step) in the extracted workstep layer file LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx after completing the first step and before the second step. In detail, copy the column K element (3.9837) of row 2020 to replace the column K element of row 2021, then delete row 2020. If you feel that doing so is too troublesome, you can choose to discard battery PIP15827A00221240 directly by deleteing file LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx.
-### Adjustability: Extract Other Features 
-We extracted U1-U21 features under 5-50% SOC, 5s pulse time or pulse width for [our publication](To be published). Moreover, our feature engineering code has strong scalability. You can adjust the settings at the top of the second and third step programs to extract different features. Remember to keep the settings of the second and third steps consistent.
+### 5.2. Adjustability: Extract Other Features
+We extracted U1-U21 features under 5-50% SOC, 5s pulse time or pulse width for [our publication](To be published). Moreover, our feature engineering codes have strong scalability. You can adjust the settings at the top of programs of step 2 and step 3 to extract different features. Remember to keep the settings of the second and third steps consistent.
 # Access
-Access the raw data and processed features [here](https://zenodo.org/uploads/11671216) under the [MIT licence](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/LICENSE). Correspondence to [Terence (Shengyu) Tao](terencetaotbsi@gmail.com) and CC to Prof. [Xuan Zhang](xuanzhang@sz.tsinghua.edu.cn) and [Guangmin Zhou](guangminzhou@sz.tsinghua.edu.cn) when you use, or have any inquiries.
+Access the raw data and processed features [here](https://zenodo.org/uploads/11671216) under the [MIT licence](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/LICENSE). Correspondence to [Terence (Shengyu) Tao](terencetaotbsi@gmail.com) and CC Prof. [Xuan Zhang](xuanzhang@sz.tsinghua.edu.cn) and [Guangmin Zhou](guangminzhou@sz.tsinghua.edu.cn) when you use, or have any inquiries.
