@@ -63,7 +63,7 @@ The range of SOC conditioning is determined by a calibrated SOH of the retired b
 |0.35-0.40|[5,30]|
 |<0.35|Not Found|
 
-The planned SOC range is recorded with a [fixed format on the filename](#Example) of each battery. 
+The planned SOC range is recorded with a [fixed format on the filename](#3.1.%20Filename%20Format) of each battery. 
 #### Protection Voltage
 We set protection voltage during pulse injection to ensure the safety of the experiment. The specific protection voltage parameters are consistent with those in the following Table. 
 Cathode Material|Nominal Capacity (Ah)|Discharging/Charging (V)|
@@ -100,10 +100,17 @@ We extracted U1-U21 features under 5-50% SOC, 5s pulse width for [our publicatio
 ## 5. Feature Engineering Code
 Feature engineering starting from raw data requires three steps.  
 [Step 1](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_1_extract%20workstep%20sheet.py) is to extract the workstep layer (i.e. '工步层') from the raw data of each battery. If step 1 correctly completed, you will get workstep layer files with several hundred KBs:  
-
-[Step 2](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_2_feature%20extraction_adjustable.py) is to extract the required features from the step layers of each battery. If step 1 correctly completed, you will get 10 features from each battery:  
-
-[Step 3](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_3_feature%20collection_adjustable.py) is to integrate the features from different batteries with the same material into one or several files. For each type of battery, you will receive a table of all its characteristics
+<p align="center">
+  <img src="Files%20obtained%20after%20completing%20Step%201.png" alt="示例图片">
+</p>
+[Step 2](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_2_feature%20extraction_adjustable.py) is to extract the required features from the step layers of each battery. If step 2 correctly completed, you will get 10 features from each battery:  
+<p align="center">
+  <img src="Files%20obtained%20after%20completing%20Step%202.png" alt="示例图片">
+</p>
+[Step 3](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_3_feature%20collection_adjustable.py) is to integrate the features from different batteries with the same material into one files. If step 3 correctly completed, you will obtain proccesed features. The first worksheet of file contains features under all SOC condition. The subsequent worksheet includes features under a single SOC condition. Subsequent worksheet organizes features under a single SOC condition, separately.  
+<p align="center">
+  <img src="Files%20obtained%20after%20completing%20Step%203.png" alt="示例图片">
+</p>
 For reproducing, download the [raw data](https://zenodo.org/uploads/11671216) and programs in this repository. Manually create folders to store processing and processed data. Update folder addresses in each program. Adjust the cap_mat variable in the program and run to reproduce the feature engineering results of different batteries. All possible adjustments are listed at the top of the code. The first step takes a long time and may take several hours or days to complete. The second step can be completed within one hour. The third step can be completed almost immediately.
 #### Notice
 Due to unknown reasons, the raw data of battery PIP15827A00221240 (10Ah LMO) has one more rest (i.e. '静置') step than normal. To ensure the correctness of feature extraction, please manually merge row 2020 (the first rest (i.e. '静置') step) and 2021 (the second rest (i.e. '静置') step) in the extracted workstep layer file LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx after completing the first step and before the second step. In detail, copy the column K element (3.9837) of row 2020 to replace the column K element of row 2021, then delete row 2020. If you feel that doing so is too troublesome, you can choose to discard battery PIP15827A00221240 directly by deleteing file LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx.
