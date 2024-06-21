@@ -1,20 +1,19 @@
 # Pulse Voltage Response Generation: PulseBat Dataset
 Retired batteries have been presenting a severe sustainbility challenge worldwide. One promising sustainable solution is reuse and recycling, but state of health (SOH) information for residual value evaluation retrieved from charge-discharge approaches are still time-consuming and energy-intensive. Developing a data-driven, rapid, and sustainable SOH estimation method for reuse and recycling decision-making is crucial. Here we open-source the collected PulseBat dataset for pulse voltage response generation of the retired batteries across random retirement conditions, i.e., state of charge (SOC) conditions, facilitating dowmstream SOH estimation tasks. The PulseBat dataset was collected on diversified cathode material types, historical usages, physical formats and capacity designs to deliberately intorduce data heterogeneities, which is a common challgenge in retired battery reuse and recycling scenarios. Xiamen Lijing New Energy Technology Co., Ltd., collected the dataset. The collaboration team at Tsinghua Berkeley Shenzhen Institute (TBSI) processed this dataset. AI and battery community will find the PulseBat dataset useful for SOH estimation of retired batteries under transfer learning, continual learning, and generative learning settings.
 
-# Publication
+# 1. Publication
 [Generative-learning-assisted Rapid State-of-Health Estimation for Sustainable Battery Recycling with Random Retirement Conditions](To be published)
-# Description
-## Overview
-Distinct from the electric vehicle use scenarios, retired batteries exhibit considerable heterogeneities in cathode material types, historical usages, physical formats and capacity designs. We physically tested 353 retired lithium-ion batteries, covering 3 cathode types, 5 historical usages, 3 physical formats, and 5 capacity designs.
-### Battery Types
+# 2. Description
+## 2.1. Overview
+Distinct from the electric vehicle use scenarios, retired batteries exhibit considerable heterogeneities in cathode material types, historical usages, physical formats and capacity designs. We physically tested 270 retired lithium-ion batteries, covering 3 cathode types, 4 historical usages, 3 physical formats, and 4 capacity designs.
+#### Battery Types
 Cathode Material|Nominal Capacity (Ah)|Physical Format|Historical Usage|Quantity|
 |:--|:--|:--|:--|:--|
 |NMC|2.1|Cylinder|Lab Accelerated Aging|67 (from 12 physical batteries)|
 |LMO|10|Pouch|HEV1|95|
-|NMC|15|Pouch|BEV1|83|
-|NMC|21|Pouch|BEV2|52|
+|NMC|21|Pouch|BEV1|52|
 |LFP|35|Square Aluminum Shell|HEV2|56|
-## Experiment Details
+## 2.2. Experiment Details
 Tests are performed with BAT-NEEFLCT-05300-V010, NEBULA, Co, Ltd, and the air conditioner temperature is set at 25℃.  
 Only EV-retired batteries (LMO 10 Ah, NMC 15 Ah, NMC 21 Ah and LFP 35Ah) were subject to this test procedure. Go to Supplementary Note 3 in Supplementary Information for experiment details of Lab Accelerated Aging batteries (NMC 2.1 Ah).  
 The experiment is divided into the following three steps: capacity calibration, SOC conditioning, and pulse injection.  
@@ -75,10 +74,10 @@ Cathode Material|Nominal Capacity (Ah)|Discharging/Charging (V)|
 |LFP|35|2.45/3.7|
 
 If the oscillation voltage during pulse injection exceeds the protection range, the current charging or discharging workstep will be immediately terminated. The remaining worksteps in the test procedure will be continued.
-##### SOC Deviation
+#### SOC Deviation
 The unequal charged and discharged capacity in adjacent positive and negative pulses with the same pulse intensity and planned pulse time caused by voltage protection will lead to an accumulatable deviation in SOC to subsequent pulse test. Fortunately, this SOC deviation is usually very slight due to the extremely short pulse time with no more than 5s. Moreover, the voltage may exceed the protection range generally when the tested SOC is close to the SOH value of the battery. In [our publication](To be published), we only used data from 5-50% SOC. Considering that the SOH of the vast majority of batteries is above 0.6, the SOC deviation used in [our publication](To be published) can be ignored for simplicity. However, if you want to use data at higher SOC level, you may need to pay attention to this SOC deviation issue to avoid introducing unnecessary errors into machine-learning models.
-## Raw Data
-### Filename Format
+## 3. Raw Data
+#### Filename Format
 mat_C_cap_B_no._SOC_soc range lower bound-soc range upper bound_Part_1/2-1/2_ID_id.xlsx
 #### Example
 LMO_C_10_B_1_SOC_5-55_Part_1-1_ID_PIP15828A00225770.xlsx  
@@ -91,12 +90,12 @@ Instance: LMO_C_10_B_1_SOC_5-55_Part_1-1_ID_PIP15828A00225770.xlsx refer to the 
 Sometimes the raw data is split into 2 parts due to the ultra long measurement time and ultra large file size. In this case, only several record layers (i.e. '记录层') will be placed in the second part.
 
 Instance: NMC_C_21_B_14_SOC_5-90_Part_1-2_ID_02LCC02100101A87Y0026421.xlsx refer to the testing of NMC 21Ah battery with index 14 (also indexed by the unique ID_02LCC02100101A87Y0026421), where the testing SOC region is from 5% to 90%. The testing file is the first file 1 out of 2 files.
-## Feature engineering
+## 4. Feature engineering
 We extracted U1-U21 features under 5-50% SOC, 5s pulse width for [our publication](To be published). Here, U1 is the steady state open cicrcuit voltage (OCV) after 10 mins rest. U2-U9 refers to voltage at the beginning and end of 0.5C positive pulse, rest, 0.5C negative pulse, rest, 1C positive pulse, rest, 1C negative pulse, rest, 1.5C positive pulse respectively. The features are extracted from the turning points, i.e., the points with zero second-order derivative of the voltage response curve after the pulse injection. The Consequently, 21 feature points, from U1 to U21, are extracted. The recording frequency for the raw data is 100 Hz. The rest time is 25 seconds between each pulse in C-rate. Note that the term C stands for charge (discharge) rate when a 1 hour of charge (discharge) is performed. The ambient temperature is controlled at 25 ℃. 
 
 ![Feature extraction description](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/assets/161430150/5a67ef25-baae-4e86-926e-ee6c64607800)  
 
-## Feature Engineering code
+## 5. Feature Engineering code
 Feature engineering starting from raw data requires three steps. The first step is to extract the workstep layer (i.e. '工步层') from the raw data of each battery. The second step is to extract the required features from the step layers of each battery. The third step is to integrate the features from different batteries with the same material into one or several files.  
 For reproducing, download the [raw data](https://zenodo.org/uploads/11671216) and programs in this repository. Manually create folders to store processing and processed data. Update folder addresses in each program. Adjust the cap_mat variable in the program and run to reproduce the feature engineering results of different batteries. All possible adjustments are listed at the top of the code. The first step takes a long time and may take several hours or days to complete. The second step can be completed within one hour. The third step can be completed almost immediately.
 ##### Notice
