@@ -63,7 +63,7 @@ The range of SOC conditioning is determined by a calibrated SOH of the retired b
 |0.35-0.40|[5,30]|
 |<0.35|Not Found|
 
-The planned SOC range is recorded with a [fixed format on the filename](#3-Raw Data) of each battery. 
+The planned SOC range is recorded with a [fixed format on the filename](#31-filename-format) of each battery. 
 #### Protection Voltage
 We set protection voltage during pulse injection to ensure the safety of the experiment. The specific protection voltage parameters are consistent with those in the following Table. 
 Cathode Material|Nominal Capacity (Ah)|Discharging/Charging (V)|
@@ -103,21 +103,9 @@ Feature engineering starting from raw data requires three steps.
 
 **Step 1** is to extract the workstep layer (i.e. '工步层') from the raw data of each battery. Step 1 takes a long time and may take several hours or days to complete. If step 1 correctly completed, you will get workstep layer files, each with several hundred KBs:  
 
-<p align="center">
-  <img src="Files%20obtained%20after%20completing%20Step%201.png">
-</p>
-
 **Step 2** is to extract the required features from the step layers of each battery. Step 2 can be completed within one hour. If step 2 correctly completed, you will get 10 features from each battery:  
 
-<p align="center">
-  <img src="Files%20obtained%20after%20completing%20Step%202.png">
-</p>
-
 **Step 3** is to integrate features from different batteries with same type into one file. Step 3 can be completed almost immediately. If step 3 correctly completed, you will obtain proccesed features. The first worksheet 'SOC ALL' contains features under all SOC condition. Subsequent worksheets 'SOCi' include features under a single SOC condition, separately.  
-
-<p align="center">
-  <img src="Files%20obtained%20after%20completing%20Step%203.png">
-</p>
 
 For reproduction, download the [raw data](https://zenodo.org/uploads/11671216) and programs for [Step 1](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_1_extract%20workstep%20sheet.py), [Step 2](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_2_feature%20extraction_adjustable.py), [Step 3](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_3_feature%20collection_adjustable.py) in this repository. Manually create folders for each step and each battery type to store processing and processed data. Update folder addresses in each program. Adjust the cap_mat variable in the program and run to reproduce the feature engineering results of different battery types. All possible adjustments are listed at the top of each code.
 #### Notice
