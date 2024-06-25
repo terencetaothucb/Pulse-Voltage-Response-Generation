@@ -13,6 +13,10 @@ Distinct from the electric vehicle use scenarios, retired batteries exhibit cons
 |LMO|10|Pouch|HEV1|95|
 |NMC|21|Pouch|BEV1|52|
 |LFP|35|Square Aluminum Shell|HEV2|56|
+
+NMC stands for lithium nickel manganese cobalt oxide. LMO stands for lithium manganese oxide. LFP stands for lithium iron phosphate.
+#### SOH Distribution
+
 ## 2.2. Experiment Details
 Tests are performed with BAT-NEEFLCT-05300-V010, NEBULA, Co, Ltd, and the air conditioner temperature is set at 25℃.  
 Only EV-retired batteries (LMO 10 Ah, NMC 15 Ah, NMC 21 Ah and LFP 35Ah) were subject to this test procedure. Go to Supplementary Note 3 in Supplementary Information for experiment details of Lab Accelerated Aging batteries (NMC 2.1 Ah).  
@@ -106,31 +110,15 @@ Sometimes the raw data is split into 2 parts due to the ultra long measurement t
 
 ####
 ## 4. Feature Engineering
-### 4.1. Dimensions for Features Extraction
+### 4.1. Features Selection Dimensions
 #### 4.1.1. SOC
-We perfored pulse injections at different SOC levels. Selectable SOC levels include 5%, 10%, 15%, ..., 90%, which are consistent with as described in [Experimental Details](#soc-conditioning-range-determination).
-
-
-### Step 1 : Capacity Calibration
-We use the widely-adopted constant current (CC) discharge method as the gold standard for determining the capacity of retired batteries. Even considering the different initial state of charge (SOC) distributions of retired batteries, we use a unified method of first constant current constant voltage (CCCV) charging and then CC discharging to determine the capacity of retired batteries.  
-First, the retired batteries are charged to the upper cut-off voltage using a 1C constant current, then charged using constant voltage until the current drops to 0.05 C.  The batteries are then discharged to the lower cut-off voltage using a 1C constant current. We use the actual discharge capacity as the calibrated (true) battery capacity and then let the battery rest for 20 minutes before SOC conditioning and pulse injection. Here the term C refers to the C-rate, determined by the current value required by a 1h full charge or discharge of a battery. The sampling frequency during step 1 is 1 Hz.  
-Cathode Material|Nominal Capacity (Ah)|Cut-Off Voltage for Dis/Charging (V)|
-|:--|:--|:--|
-|LMO|10|2.0/4.2|
-|NMC|15|2.7/4.2|
-|NMC|21|2.7/4.2|
-|LFP|35|2.5/3.65|
-### Step 2 : SOC Conditioning
-SOC conditioning refers to adjust the battery SOC to a desired level, necessitated by the fact that retired batteris are of random SOC distributions upon the collection. When the capacity calibration is finished, the battery is at its zero SOC. When a 5% SOC is desired, we use a 1C constant current for 3 minutes to adjust the calibrated battery to a 5% SOC level. The battery is then left to stand for 10 minutes to rest, expecting the battery to return to a steady state in preparation for subsequent pulse injection. The sampling frequency during step 2 is 1 Hz.  
-### Step 3 : Pulse Injection
-We perform multiple consecutive pulse injections with different pulse widths and amplitudes. The pulse width and pulse resting time are as shown in the following Table, that is, for each pulse width and resting time (each row of the table), we consecutively perform pulse injection with pulse amplitude being 0.5-1-1.5-2-2.5(C) in order, including positive and negative pulse injections. Note that positive and negative pulses alternate to cancel the equivalent energy injection, thus the stored energy inside the battery does not change. Take pulse injection at 5% SOC for an example, at the 30ms pulse width, we inject 0.5C positive current pulse, then let the battery rest for 450ms, and then inject 0.5C negative current pulse, then again let the battery rest for 450ms. Still at 5% SOC, other remaining pulses with different amplitudes follow the rest of the previous pulse injections. Repetitive experiments are performed until the remaining pulse widths are exhausted. Then we charge the retired battery with a constant current of 1C for another 3 minutes to 10% SOC (refer to the SOC conditioning step), followed by the same procedure as explained above.  
-
+We performed pulse injections at different SOC levels. Selectable SOC levels include 5%, 10%, 15%, ..., 90%, which are consistent with as described in [Experimental Details](#soc-conditioning-range-determination). Considering the SOC Conditioning Range, which is determined by the SOH of the battery,   
 #### 4.1.2. Pulse Width
-We performed multiple consecutive pulse injections with different pulse widths. Selectable pulse widths include 30ms, 50ms, 70ms, 100ms, 300ms, 500ms, 700ms, 1s, 3s, 5s, which are consistent with as described in [Experimental Details](#step-3--pulse-injection).
+We performed multiple consecutive pulse injections with different pulse widths. Selectable pulse widths include 30ms, 50ms, 70ms, 100ms, 300ms, 500ms, 700ms, 1s, 3s, 5s, which are consistent with as described in [Experimental Details](#step-3--pulse-injection). Rest time between pulses is 15 times the pulse width, which are 450ms, 750ms, 1.05s, 1.5s, 4.5s, 7.5s, 1.05s, 15s, 45s, 75s.  
 #### 4.1.3. Pulse Amplitude
-We performed multiple consecutive pulse injections with different pulse amplitudes. For simplicity, We use U1-U41 to represent pulse amplitudes.
+We performed multiple consecutive pulse injections with different pulse amplitudes. Selectable pulse amplitudes include 0.5C, 1C, 1.5C, 2C, 2.5C, which are consistent with as described in [Experimental Details](#step-3--pulse-injection). Features are extracted from turning points, i.e. the points at the beginning and end of pulse injection and rest workstep on the voltage response curve. For simplicity, We use U1-U41 to represent pulse amplitudes. U1 is the steady state open cicrcuit voltage (OCV) after 10 mins rest. U2-U9 refers to voltage at the beginning and end of 0.5C positive pulse, rest, 0.5C negative pulse, rest, respectively. Similarly, U10-U17, U18-U25, U26-U33 and U34-U41 refers to that of 1C, 1.5C, 2C and 2.5C, respectively. Note that the term C stands for charge (discharge) rate when a 1 hour of charge (discharge) is performed. The ambient temperature is controlled at 25 ℃.  
 ### 4.2. Features Used in our Publication
-We extracted U1-U21 features under 5-50% SOC, 5s pulse width for [our publication](To be published). Features are extracted from turning points, i.e. the points at the beginning and end of pulse injection and rest workstep on the voltage response curve. U1 is the steady state open cicrcuit voltage (OCV) after 10 mins rest. U2-U9 refers to voltage at the beginning and end of 0.5C positive pulse, rest, 0.5C negative pulse, rest, 1C positive pulse, rest, 1C negative pulse, rest, 1.5C positive pulse respectively. The rest time is 25 seconds between each pulse in C-rate. Note that the term C stands for charge (discharge) rate when a 1 hour of charge (discharge) is performed. The ambient temperature is controlled at 25 ℃. 
+We extracted U1-U21 features under 5-50% SOC, 5s pulse width for [our publication](To be published). The rest time is 75 seconds between each pulse in C-rate. 
 
 <p align="center">
   <img src="Feature U1-U21 Description.png" alt="示例图片">
@@ -162,6 +150,7 @@ NMC_21Ah_W_5000.xlsx
 LFP_35Ah_W_5000.xlsx
 ### 4.4. Adjustability: Extract Other Features
 We extracted U1-U21 features under 5-50% SOC, 5s pulse time or pulse width for [our publication](To be published). Moreover, our feature engineering codes have strong scalability. You can adjust the settings at the top of programs of step 2 and step 3 to extract different features. Remember to keep the settings of the second and third steps consistent.
+step 3 有多少个表是根据人选的决定的，有些表里面可能是空的，表示没在那一步做成功过实验。
 # 5. Access
 Access the raw data and processed features [here](https://zenodo.org/uploads/11671216) under the [MIT licence](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/LICENSE). Correspondence to [Terence (Shengyu) Tao](terencetaotbsi@gmail.com) and CC Prof. [Xuan Zhang](xuanzhang@sz.tsinghua.edu.cn) and [Guangmin Zhou](guangminzhou@sz.tsinghua.edu.cn) when you use, or have any inquiries.
 ### Acknowledgements
