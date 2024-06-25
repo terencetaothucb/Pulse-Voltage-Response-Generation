@@ -1,5 +1,5 @@
 # Pulse Voltage Response Generation: PulseBat Dataset
-Retired batteries have been presenting a severe sustainability challenge worldwide. One promising sustainable solution is reuse and recycling, but state of health (SOH) information for residual value evaluation retrieved from charge-discharge approaches are still time-consuming and energy-intensive. Developing a data-driven, rapid, and sustainable SOH estimation method for reuse and recycling decision-making is crucial. Here we open-source the collected PulseBat dataset for pulse voltage response generation of the retired batteries across random retirement conditions, i.e., state of charge (SOC) conditions, facilitating downstream SOH estimation tasks. The PulseBat dataset was collected on diversified cathode material types, historical usages, physical formats and capacity designs to deliberately introduce data heterogeneities, which is a common challgenge in retired battery reuse and recycling scenarios. Xiamen Lijing New Energy Technology Co., Ltd., collected the dataset. The collaboration team at Tsinghua Berkeley Shenzhen Institute (TBSI) processed this dataset. AI and battery community will find the PulseBat dataset useful for SOH estimation of retired batteries under transfer learning, continual learning, and generative learning settings.
+Retired batteries have been presenting a severe sustainability challenge worldwide. One promising sustainable solution is reuse and recycling, but state of health (SOH) information for residual value evaluation retrieved from charge-discharge approaches are still time-consuming and energy-intensive. Developing a data-driven, rapid, and sustainable SOH estimation method for reuse and recycling decision-making is crucial. Here we open-source the collected PulseBat dataset for pulse voltage response generation of the retired batteries across random retirement conditions, i.e., state of charge (SOC) conditions, facilitating downstream SOH estimation tasks. The PulseBat dataset was collected on diversified cathode material types, historical usages, physical formats and capacity designs to deliberately introduce data heterogeneities, which is a common challgenge in retired battery reuse and recycling scenarios. Xiamen Lijing New Energy Technology Co., Ltd., (Xiamen Lijing) collected the dataset. The collaboration team at Tsinghua Berkeley Shenzhen Institute (TBSI) processed this dataset. AI and battery community will find the PulseBat dataset useful for SOH estimation of retired batteries under transfer learning, continual learning, and generative learning settings.
 
 # 1. Publication
 [Generative-learning-assisted Rapid State-of-Health Estimation for Sustainable Battery Recycling with Random Retirement Conditions](To be published)
@@ -19,7 +19,7 @@ Only EV-retired batteries (LMO 10 Ah, NMC 15 Ah, NMC 21 Ah and LFP 35Ah) were su
 The experiment is divided into the following three steps: capacity calibration, SOC conditioning, and pulse injection.  
 ### Step 1 : Capacity Calibration
 We use the widely-adopted constant current (CC) discharge method as the gold standard for determining the capacity of retired batteries. Even considering the different initial state of charge (SOC) distributions of retired batteries, we use a unified method of first constant current constant voltage (CCCV) charging and then CC discharging to determine the capacity of retired batteries.  
-First, the retired batteries are charged to the upper cut-off voltage using a 1C constant current, then charged using constant voltage until the current drops to 0.05 C.  The batteries are then discharged to the lower cut-off voltage using a 1C constant current. We use the actual discharge capacity as the calibrated (true) battery capacity and then let the battery rest for 20 minutes before SOC conditioning and pulse injection. Here the term C refers to the C-rate, determined by the current value required by a 1h full charge or discharge of a battery.
+First, the retired batteries are charged to the upper cut-off voltage using a 1C constant current, then charged using constant voltage until the current drops to 0.05 C.  The batteries are then discharged to the lower cut-off voltage using a 1C constant current. We use the actual discharge capacity as the calibrated (true) battery capacity and then let the battery rest for 20 minutes before SOC conditioning and pulse injection. Here the term C refers to the C-rate, determined by the current value required by a 1h full charge or discharge of a battery. The sampling frequency during step 1 is 1 Hz.  
 Cathode Material|Nominal Capacity (Ah)|Cut-Off Voltage for Dis/Charging (V)|
 |:--|:--|:--|
 |LMO|10|2.0/4.2|
@@ -27,9 +27,9 @@ Cathode Material|Nominal Capacity (Ah)|Cut-Off Voltage for Dis/Charging (V)|
 |NMC|21|2.7/4.2|
 |LFP|35|2.5/3.65|
 ### Step 2 : SOC Conditioning
-SOC conditioning refers to adjust the battery SOC to a desired level, necessitated by the fact that retired batteris are of random SOC distributions upon the collection. When the capacity calibration is finished, the battery is at its zero SOC. When a 5% SOC is desired, we use a 1C constant current for 3 minutes to adjust the calibrated battery to a 5% SOC level. The battery is then left to stand for 10 minutes to rest, expecting the battery to return to a steady state in preparation for subsequent pulse injection. 
+SOC conditioning refers to adjust the battery SOC to a desired level, necessitated by the fact that retired batteris are of random SOC distributions upon the collection. When the capacity calibration is finished, the battery is at its zero SOC. When a 5% SOC is desired, we use a 1C constant current for 3 minutes to adjust the calibrated battery to a 5% SOC level. The battery is then left to stand for 10 minutes to rest, expecting the battery to return to a steady state in preparation for subsequent pulse injection. The sampling frequency during step 2 is 1 Hz.  
 ### Step 3 : Pulse Injection
-We perform multiple consecutive pulse injections with different amplitudes, pulse widths and polarizations. The pulse width and pulse resting time are as shown in the following Table, that is, for each pulse width and resting time (each row of the table), we consecutively perform pulse injection with pulse amplitude being 0.5-1-1.5-2-2.5(C) in order, including positive and negative pulse injections. Note that positive and negative pulses alternate to cancel the equivalent energy injection, thus the stored energy inside the battery does not change. Take pulse injection at 5% SOC for an example, at the 30ms pulse width, we inject 0.5C positive current pulse, then let the battery rest for 450ms, and then inject 0.5C negative current pulse, then again let the battery rest for 450ms. Still at 5% SOC, other remaining pulses with different amplitudes follow the rest of the previous pulse injections. Repetitive experiments are performed until the remaining pulse widths are exhausted. Then we charge the retired battery with a constant current of 1C for another 3 minutes to 10% SOC (refer to the SOC conditioning step), followed by the same procedure as explained above.  
+We perform multiple consecutive pulse injections with different pulse widths and amplitudes. The pulse width and pulse resting time are as shown in the following Table, that is, for each pulse width and resting time (each row of the table), we consecutively perform pulse injection with pulse amplitude being 0.5-1-1.5-2-2.5(C) in order, including positive and negative pulse injections. Note that positive and negative pulses alternate to cancel the equivalent energy injection, thus the stored energy inside the battery does not change. Take pulse injection at 5% SOC for an example, at the 30ms pulse width, we inject 0.5C positive current pulse, then let the battery rest for 450ms, and then inject 0.5C negative current pulse, then again let the battery rest for 450ms. Still at 5% SOC, other remaining pulses with different amplitudes follow the rest of the previous pulse injections. Repetitive experiments are performed until the remaining pulse widths are exhausted. Then we charge the retired battery with a constant current of 1C for another 3 minutes to 10% SOC (refer to the SOC conditioning step), followed by the same procedure as explained above.  
 |Pulse Width|Pulse Rest Time|Pulse Amplitude (±C)|
 |:--|:--|:--|
 |30ms|450ms|0.5-1-1.5-2-2.5|
@@ -43,7 +43,7 @@ We perform multiple consecutive pulse injections with different amplitudes, puls
 |3s|45s|0.5-1-1.5-2-2.5|
 |5s|75s|0.5-1-1.5-2-2.5|
 
-Repeat Step 2 and Step 3 until the SOC conditioning region is exhausted.
+Repeat Step 2 and Step 3 until the SOC conditioning region is exhausted. The sampling frequency during step 3 is 100 Hz.  
 #### SOC Conditioning Range Determination
 The range of SOC conditioning is determined by a calibrated SOH of the retired battery. Specifically, the upper bound of the SOC conditioning region is lower than the calibrated SOH value of the retired battery by 0.05. For instance, when the retired battery has a previous calibrated SOH between 0.5 and 0.55, then the SOC conditioning region will be 5% to 45%, with a grain of 5%. Detailed information is shown in the table below.  
 |SOH|SOC Range (%), 5% Grain|
@@ -63,7 +63,7 @@ The range of SOC conditioning is determined by a calibrated SOH of the retired b
 |0.35-0.40|[5,30]|
 |<0.35|Not Found|
 
-The planned SOC range is recorded with a [fixed format on the filename](#31-filename) of each battery. 
+The planned SOC range is recorded with a [fixed format on the file name](#31-file-name) of each battery. 
 #### Protection Voltage
 We set protection voltage during pulse injection to ensure the safety of the experiment. The specific protection voltage parameters are consistent with those in the following Table. 
 Cathode Material|Nominal Capacity (Ah)|Discharging/Charging (V)|
@@ -77,9 +77,9 @@ If the oscillation voltage during pulse injection exceeds the protection range, 
 #### SOC Deviation
 The unequal charged and discharged capacity in adjacent positive and negative pulses with the same pulse intensity and planned pulse time caused by voltage protection will lead to an accumulatable deviation in SOC to subsequent pulse test. Fortunately, this SOC deviation is usually very slight due to the extremely short pulse time with no more than 5s. Moreover, the voltage may exceed the protection range generally when the tested SOC is close to the SOH value of the battery. In [our publication](To be published), we only used data from 5-50% SOC. Considering that the SOH of the vast majority of batteries is above 0.6, the SOC deviation used in [our publication](To be published) can be ignored for simplicity. However, if you want to use data at higher SOC level, you may need to pay attention to this SOC deviation issue to avoid introducing unnecessary errors into machine-learning models.
 ## 3. Raw Data
-### 3.1. Filename
-#### Raw Data Filename Format
-mat_C_cap_B_no._SOC_soc range lower bound-soc range upper bound_Part_1/2-1/2_ID_id.xlsx
+### 3.1. File Name
+#### Raw Data File Name Format
+mat_C_cap_B_no._SOC_soc range lower bound-soc range upper bound_Part_part i-of j parts in total_ID_id.xlsx
 #### Example
 LMO_C_10_B_1_SOC_5-55_Part_1-1_ID_PIP15828A00225770.xlsx  
 NMC_C_21_B_14_SOC_5-90_Part_1-2_ID_02LCC02100101A87Y0026421.xlsx  
@@ -87,37 +87,82 @@ NMC_C_21_B_14_SOC_5-90_Part_2-2_ID_02LCC02100101A87Y0026421.xlsx
 LFP_C_35_B_56_SOC_5-90_Part_1-2_ID_56号.xlsx  
 
 **Instance:** LMO_C_10_B_1_SOC_5-55_Part_1-1_ID_PIP15828A00225770.xlsx refer to the testing of LMO 10Ah battery with index 1 (also indexed by the unique ID: PIP15828A00225770), where the testing SOC region is from 5% to 55%. The testing have 1 out of 1 file.
-#### File Part Split Explanation
-Sometimes the raw data is split into 2 parts due to the ultra long measurement time and ultra large file size. In this case, only several record layers (i.e. '记录层') will be placed in the second part.  
+#### File Split Explanation
+Sometimes the raw data is split into 2 parts due to the ultra long measurement time and ultra large file size.
 
 **Instance:** NMC_C_21_B_14_SOC_5-90_Part_1-2_ID_02LCC02100101A87Y0026421.xlsx refer to the testing of NMC 21Ah battery with index 14 (also indexed by the unique ID: 02LCC02100101A87Y0026421), where the testing SOC region is from 5% to 90%. The testing file is the first file 1 out of 2 files.
+### 3.2. File Sturcture
+####
+
+####
+
+####
+
+####
+
+####
+
+####
+
+####
 ## 4. Feature Engineering
-We extracted U1-U21 features under 5-50% SOC, 5s pulse width for [our publication](To be published). The features are extracted from turning points, i.e., the points at the beginning and end of pulse injection and rest workstep on the voltage response curve. U1 is the steady state open cicrcuit voltage (OCV) after 10 mins rest. U2-U9 refers to voltage at the beginning and end of 0.5C positive pulse, rest, 0.5C negative pulse, rest, 1C positive pulse, rest, 1C negative pulse, rest, 1.5C positive pulse respectively. The rest time is 25 seconds between each pulse in C-rate. Note that the term C stands for charge (discharge) rate when a 1 hour of charge (discharge) is performed. The recording frequency for step 3 in the raw data is 100 Hz. The ambient temperature is controlled at 25 ℃. 
+### 4.1. Dimensions for Features Extraction
+#### 4.1.1. SOC
+
+
+
+### Step 1 : Capacity Calibration
+We use the widely-adopted constant current (CC) discharge method as the gold standard for determining the capacity of retired batteries. Even considering the different initial state of charge (SOC) distributions of retired batteries, we use a unified method of first constant current constant voltage (CCCV) charging and then CC discharging to determine the capacity of retired batteries.  
+First, the retired batteries are charged to the upper cut-off voltage using a 1C constant current, then charged using constant voltage until the current drops to 0.05 C.  The batteries are then discharged to the lower cut-off voltage using a 1C constant current. We use the actual discharge capacity as the calibrated (true) battery capacity and then let the battery rest for 20 minutes before SOC conditioning and pulse injection. Here the term C refers to the C-rate, determined by the current value required by a 1h full charge or discharge of a battery. The sampling frequency during step 1 is 1 Hz.  
+Cathode Material|Nominal Capacity (Ah)|Cut-Off Voltage for Dis/Charging (V)|
+|:--|:--|:--|
+|LMO|10|2.0/4.2|
+|NMC|15|2.7/4.2|
+|NMC|21|2.7/4.2|
+|LFP|35|2.5/3.65|
+### Step 2 : SOC Conditioning
+SOC conditioning refers to adjust the battery SOC to a desired level, necessitated by the fact that retired batteris are of random SOC distributions upon the collection. When the capacity calibration is finished, the battery is at its zero SOC. When a 5% SOC is desired, we use a 1C constant current for 3 minutes to adjust the calibrated battery to a 5% SOC level. The battery is then left to stand for 10 minutes to rest, expecting the battery to return to a steady state in preparation for subsequent pulse injection. The sampling frequency during step 2 is 1 Hz.  
+### Step 3 : Pulse Injection
+We perform multiple consecutive pulse injections with different pulse widths and amplitudes. The pulse width and pulse resting time are as shown in the following Table, that is, for each pulse width and resting time (each row of the table), we consecutively perform pulse injection with pulse amplitude being 0.5-1-1.5-2-2.5(C) in order, including positive and negative pulse injections. Note that positive and negative pulses alternate to cancel the equivalent energy injection, thus the stored energy inside the battery does not change. Take pulse injection at 5% SOC for an example, at the 30ms pulse width, we inject 0.5C positive current pulse, then let the battery rest for 450ms, and then inject 0.5C negative current pulse, then again let the battery rest for 450ms. Still at 5% SOC, other remaining pulses with different amplitudes follow the rest of the previous pulse injections. Repetitive experiments are performed until the remaining pulse widths are exhausted. Then we charge the retired battery with a constant current of 1C for another 3 minutes to 10% SOC (refer to the SOC conditioning step), followed by the same procedure as explained above.  
+
+#### 4.1.2. Pulse Width
+We perform multiple consecutive pulse injections with different pulse widths. Selectable pulse widths include 30ms, 50ms, 70ms, 100ms, 300ms, 500ms, 700ms, 1s, 3s, 5s, which are consistent with as described in [Experimental Details](#-step-3--pulse-injection).
+#### 4.1.3. Pulse Amplitude
+We perform multiple consecutive pulse injections with different pulse amplitudes. For simplicity, We use U1-U41 to represent pulse amplitudes.
+### 4.2. Features Used in our Publication
+We extracted U1-U21 features under 5-50% SOC, 5s pulse width for [our publication](To be published). Features are extracted from turning points, i.e. the points at the beginning and end of pulse injection and rest workstep on the voltage response curve. U1 is the steady state open cicrcuit voltage (OCV) after 10 mins rest. U2-U9 refers to voltage at the beginning and end of 0.5C positive pulse, rest, 0.5C negative pulse, rest, 1C positive pulse, rest, 1C negative pulse, rest, 1.5C positive pulse respectively. The rest time is 25 seconds between each pulse in C-rate. Note that the term C stands for charge (discharge) rate when a 1 hour of charge (discharge) is performed. The ambient temperature is controlled at 25 ℃. 
 
 <p align="center">
   <img src="Feature U1-U21 Description.png" alt="示例图片">
 </p>
 
-## 5. Feature Engineering Method
-### 5.1. Reproduction
-Feature engineering starting from raw data requires three steps.
+### 4.3. Reproduction
+Feature engineering starting from raw data requires three steps. For reproduction, download the [raw data](https://zenodo.org/uploads/11671216) and programs for [Step 1](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_1_extract%20workstep%20sheet.py), [Step 2](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_2_feature%20extraction_adjustable.py), [Step 3](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_3_feature%20collection_adjustable.py) in this repository. Manually create folders for each step and subfolders for each battery type to store processing and processed data. Update folder addresses in each program. Adjust the cap_mat variable in the program and run to reproduce the feature engineering results of different battery types. All possible adjustments are listed at the top of each program.  
 
-**Step 1** is to extract the workstep layer (i.e. '工步层') from the raw data of each battery. Step 1 takes a long time and may take several hours or days to complete. If step 1 correctly completed, you will get workstep layer files of each batteries. The file size of each step layer is several hundred KBs. The workstep layer file of each battery is named to be same with the 1st part of the raw data.  
-#### Workstep Layer Filename Format
-mat_C_cap_B_no.\_SOC_soc range lower bound-soc range upper bound_Part\_**1**-1/2_ID_id.xlsx
+**Step 1** is to extract the workstep layer (i.e. '工步层') from the raw data of each battery. Step 1 takes a long time and may take several hours or days to complete. If step 1 is correctly completed, you will get one workstep layer file for each battery. The size of each workstep layer file is several hundred KB and is strongly positively correlated with experimental duration, or the range of SOC conditioning. As the workstep layer will be placed in the first part when the raw data is split into two parts, the workstep layer file of each battery is named to be same with the first part of the raw data.  
+#### Workstep Layer Filename Format (Almost same with Raw Data)
+mat_C_cap_B_no.\_SOC_soc range lower bound-soc range upper bound_Part\_**1**-of j parts in total_ID_id.xlsx
 #### Example
-LMO_C_10_B_1_SOC_5-55_Part_1-1_ID_PIP15828A00225770.xlsx  
-NMC_C_21_B_14_SOC_5-90_Part_1-2_ID_02LCC02100101A87Y0026421.xlsx  
-LFP_C_35_B_56_SOC_5-90_Part_1-2_ID_56号.xlsx  
-
-**Step 2** is to extract the required features from the step layers of each battery. Step 2 can be completed within one hour. If step 2 correctly completed, you will get 10 features from each battery:  
-
-**Step 3** is to integrate features from different batteries with same type into one file. Step 3 can be completed almost immediately. If step 3 correctly completed, you will obtain proccesed features. The first worksheet 'SOC ALL' contains features under all SOC condition. Subsequent worksheets 'SOCi' include features under a single SOC condition, separately.  
-
-For reproduction, download the [raw data](https://zenodo.org/uploads/11671216) and programs for [Step 1](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_1_extract%20workstep%20sheet.py), [Step 2](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_2_feature%20extraction_adjustable.py), [Step 3](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_3_feature%20collection_adjustable.py) in this repository. Manually create folders for each step and each battery type to store processing and processed data. Update folder addresses in each program. Adjust the cap_mat variable in the program and run to reproduce the feature engineering results of different battery types. All possible adjustments are listed at the top of each code.
+LMO_C_10_B_1_SOC_5-55_Part_**1**-1_ID_PIP15828A00225770.xlsx  
+NMC_C_21_B_14_SOC_5-90_Part_**1**-2_ID_02LCC02100101A87Y0026421.xlsx  
+LFP_C_35_B_56_SOC_5-90_Part_**1**-2_ID_56号.xlsx  
 #### Notice
-Due to unknown reasons, the raw data of battery PIP15827A00221240 (10Ah LMO) has one more rest (i.e. '静置') step than normal. To ensure the correctness of feature extraction, please manually merge row 2020 (the first rest (i.e. '静置') step) and 2021 (the second rest (i.e. '静置') step) in the extracted workstep layer file LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx after completing the first step and before the second step. In detail, copy the column K element (3.9837) of row 2020 to replace the column K element of row 2021, then delete row 2020. If you feel that doing so is too troublesome, you can choose to discard battery PIP15827A00221240 directly by deleteing file LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx.
-### 5.2. Adjustability: Extract Other Features
+Due to unknown reasons, the raw data of battery PIP15827A00221240 (10Ah LMO, No.2) has one more rest (i.e. '静置') step than normal. This accident will not affect reproduction, so you can temporarily skip this notice. 
+However, to ensure the correctness of adjustable feature extraction, please manually merge row 2020 (the first rest (i.e. '静置') step) and 2021 (the second rest (i.e. '静置') step) in the extracted workstep layer file LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx after completing the step 1 and before the step 2. In detail, copy the column K element (3.9837) of row 2020 to replace the column K element of row 2021, then delete row 2020. If you feel that doing so is too troublesome, you can choose to discard battery PIP15827A00221240 directly by deleteing the raw data file before step 1 or the workstep layer file after step 1, both named LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx.  
+
+**Step 2** is to extract required features from the workstep layer of each battery. Step 2 can be completed within one hour. If step 2 is correctly completed, you will get one file for each battery. There are 10 samples from each battery. The size of each file after step 2 is 7 KB. The name of each file after step 2 is same with the file after step 1.  
+
+**Step 3** is to integrate features from different batteries with same pulse width and same type into one file. Step 3 can be completed almost immediately. If step 3 is correctly completed, the file you receive will contain multiple worksheets. The first worksheet 'SOC ALL' contains features under all SOC condition. Subsequent worksheets 'SOCi' include features under a single SOC condition, separately. In each worksheets, there are as many samples as the quantity of batteries of that type. The size of each file after step 3 is several hundred KB and is strongly positively correlated with the battery quantity of that type.   
+#### Processed Data Filename Format
+mat_cap_Ah_W_pulse width(ms unit).xlsx  
+#### Example
+LMO_10Ah_W_5000.xlsx  
+NMC_15Ah_W_5000.xlsx  
+NMC_21Ah_W_5000.xlsx  
+LFP_35Ah_W_5000.xlsx
+### 4.4. Adjustability: Extract Other Features
 We extracted U1-U21 features under 5-50% SOC, 5s pulse time or pulse width for [our publication](To be published). Moreover, our feature engineering codes have strong scalability. You can adjust the settings at the top of programs of step 2 and step 3 to extract different features. Remember to keep the settings of the second and third steps consistent.
-# Access
+# 5. Access
 Access the raw data and processed features [here](https://zenodo.org/uploads/11671216) under the [MIT licence](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/LICENSE). Correspondence to [Terence (Shengyu) Tao](terencetaotbsi@gmail.com) and CC Prof. [Xuan Zhang](xuanzhang@sz.tsinghua.edu.cn) and [Guangmin Zhou](guangminzhou@sz.tsinghua.edu.cn) when you use, or have any inquiries.
+### Acknowledgements
+We extend our sincere gratitude to Xiamen Lijing New Energy Technology Co., Ltd. for their invaluable contribution to this dataset. The raw data provided by Xiamen Lijing has been instrumental to our research, enriching data resources and providing a solid foundation for analysis. We express our deepest respect and appreciation for the generous support and professionalism of Xiamen Lijing. The completion of this dataset would not have been possible without their assistance. We look forward to future opportunities for collaboration to further advance the field of battery, carbon neutrality and sustainability.
