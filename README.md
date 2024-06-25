@@ -98,20 +98,6 @@ LFP_C_35_B_56_SOC_5-90_Part_1-2_ID_56号.xlsx
 Sometimes the raw data is split into 2 parts due to the ultra long measurement time and ultra large file size.
 
 **Instance:** NMC_C_21_B_14_SOC_5-90_Part_1-2_ID_02LCC02100101A87Y0026421.xlsx refer to the testing of NMC 21Ah battery with index 14 (also indexed by the unique ID: 02LCC02100101A87Y0026421), where the testing SOC region is from 5% to 90%. The testing file is the first file 1 out of 2 files.
-### 3.2. File Sturcture
-####
-
-####
-
-####
-
-####
-
-####
-
-####
-
-####
 ## 4. Feature Engineering
 ### 4.1. Features Selection Dimensions
 #### 4.1.1. SOC
@@ -129,7 +115,10 @@ We extracted U1-U21 features under 5-50% SOC, 5s pulse width for [our publicatio
 
 ### 4.3. Reproduction
 Feature engineering starting from raw data requires three steps. For reproduction, download the [raw data](https://zenodo.org/uploads/11671216) and programs for [Step 1](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_1_extract%20workstep%20sheet.py), [Step 2](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_2_feature%20extraction_adjustable.py), [Step 3](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_3_feature%20collection_adjustable.py) in this repository. Manually create folders for each step and subfolders for each battery type to store processing and processed data. Update folder addresses in each program. Adjust the cap_mat variable in the program and run to reproduce the feature engineering results of different battery types. All possible adjustments are listed at the top of each program. Then you will have [extracted features](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/ProcessedData_adjustable_2.1Ah%2010Ah%2021Ah%2035Ah.zip) from 10Ah LMO, 21Ah NMC, 35Ah LFP.  
+
 Specificly,  
+
+#### 4.3.1. Step 1
 **Step 1** is to extract the workstep layer (i.e. '工步层') from the raw data of each battery. Step 1 takes a long time and may take several hours or days to complete. If step 1 is correctly completed, you will get one workstep layer file for each battery. The size of each workstep layer file is several hundred KB and is strongly positively correlated with experimental duration, or the range of SOC conditioning. As the workstep layer will be placed in the first part when the raw data is split into two parts, the workstep layer file of each battery is named to be same with the first part of the raw data. A correctly reproduced example file can be seen [here](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Processing%20Data%20Example/NMC_C_21_B_6_SOC_5-90_Part_1-2_ID_02LCC02100101A87Y0052124.xlsx). An overview can be seen [here](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Files%20obtained%20after%20completing%20Step%201.png).  
 #### Workstep Layer Filename Format (Almost same with Raw Data)
 mat_C_cap_B_no.\_SOC_soc range lower bound-soc range upper bound_Part\_**1**-of j parts in total_ID_id.xlsx
@@ -141,8 +130,10 @@ LFP_C_35_B_56_SOC_5-90_Part_**1**-2_ID_56号.xlsx
 Due to unknown reasons, the raw data of battery PIP15827A00221240 (10Ah LMO, No.2) has one more rest (i.e. '静置') step than normal. This accident will not affect reproduction, so you can temporarily skip the following operations in this notice. 
 However, to ensure the correctness of further adjustable feature extraction, please manually merge row 2020 (the first rest (i.e. '静置') step) and 2021 (the second rest (i.e. '静置') step) in the extracted workstep layer file LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx after completing the step 1 and before the step 2. In detail, copy the column K element (3.9837) of row 2020 to replace the column K element of row 2021, then delete row 2020. If you feel that doing so is too troublesome, you can replace the local file with [this edited version](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Unexpected%20Situations%20Handling/LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx). Or you can choose to discard battery PIP15827A00221240 directly by deleteing the raw data file before step 1 or the workstep layer file after step 1, both named LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx.  
 
+#### 4.3.2. Step 2
 **Step 2** is to extract required features from the workstep layer of each battery. Step 2 can be completed within one hour. If step 2 is correctly completed, you will get one file for each battery. There are 10 samples (5-50% SOC, in ascending order) from each battery. The information record format for each sample for each sample is listed in the following table. The size of each file after step 2 is 7 KB. The name of each file after step 2 is same with the file after step 1. A correctly reproduced example file can be seen [here](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Processing%20Data%20Example/LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx). An overview can be seen [here](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Files%20obtained%20after%20completing%20Step%202.png).  
 
+#### 4.3.3. Step 3
 **Step 3** is to integrate features from different batteries with same pulse width and same type into one file. Step 3 can be completed almost immediately. If step 3 is correctly completed, the file you receive will contain multiple worksheets. The first worksheet 'SOC ALL' contains features under all SOC condition. Subsequent worksheets 'SOCi' include features under a single SOC condition, separately. In each worksheets, there are as many samples as the quantity of batteries of that type. The size of each file after step 3 is several hundred KB and is strongly positively correlated with the battery quantity of that type. To verify the correctness of reproduction, use our processed features [here](https://zenodo.org/uploads/11671216). An overview can be seen [here](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Files%20obtained%20after%20completing%20Step%203.png).  
 #### Processed Data Filename Format
 mat_cap_Ah_W_pulse width(ms unit).xlsx  
@@ -152,8 +143,39 @@ NMC_15Ah_W_5000.xlsx
 NMC_21Ah_W_5000.xlsx  
 LFP_35Ah_W_5000.xlsx
 ### 4.4. Adjustability: Features of Different Hyperparameters
-We extracted U1-U21 features under 5-50% SOC, 5s pulse time or pulse width for [our publication](To be published). Moreover, our feature engineering codes have strong scalability. You can adjust the settings at the top of programs of step 2 and step 3 to extract different features. Remember to keep the settings of the second and third steps consistent.
+We extracted U1-U21 features under 5-50% SOC, 5s pulse time or pulse width for [our publication](To be published). Moreover, our feature engineering codes have strong scalability. You can adjust the settings at the top of programs of step 2 and step 3 to extract different features. No need to perform step 1 again if reproduction completed once. Remember to keep the settings of the second and third steps consistent.
+#### 4.4.1. SOC
+~~~python
+soc_to_extract = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50] # In our publication: 5-50% SOC
+    # Recommended within {5, 10, ..., 50}, as batteries with low SOH may not tested with 55% or higher SOC.
+    # Adjustable within {5, 10, ..., 90}.
+    # Can be non-adjacent.
+    # Arranging in ascending order is recommended, but not mandatory.
+    # Not including duplicate content is required.
+~~~
+#### 4.4.2. Pulse Width
+~~~python
+pt_to_extract = [5] # In our publication: 5s
+    # Adjustable within {0.03, 0.05, 0.07, 0.1, 0.3, 0.5, 0.7, 1, 3, 5}.
+    # Can be non-adjacent.
+    # Arranging in ascending order is recommended, but not mandatory.
+    # Not including duplicate content is required.
+~~~
+#### 4.4.3. Pulse Amplitude
+~~~python
+U_to_extract = range(1,21 +1) # In our publication: U1-U21
+    # Adjustable within {1, 2, ..., 41}.
+    # Can be non-adjacent.
+    # Arranging in ascending order is recommended, but not mandatory.
+    # Not including duplicate content is required.
+    # U1: steady state open cicrcuit voltage (OCV) after 10 mins rest
+    # U2-U9: voltage at the beginning and end of 0.5C positive pulse, rest, 0.5C negative pulse and rest.
+    # U10-U17: 1C. # U18-U25: 1.5C. # U26-U33: 2C. # U34-U41: 2.5C.
+~~~
+
+
 step 3 有多少个表是根据人选的决定的，有些表里面可能是空的，表示没在那一步做成功过实验。
+
 # 5. Access
 Access the raw data and processed features [here](https://zenodo.org/uploads/11671216) under the [MIT licence](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/LICENSE). Correspondence to [Terence (Shengyu) Tao](mailto:terencetaotbsi@gmail.com) and CC Prof. [Xuan Zhang](mailto:xuanzhang@sz.tsinghua.edu.cn) and [Guangmin Zhou](mailto:guangminzhou@sz.tsinghua.edu.cn) when you use, or have any inquiries.
 # 6. Acknowledgements
