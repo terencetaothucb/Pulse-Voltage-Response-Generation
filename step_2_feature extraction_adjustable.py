@@ -1,5 +1,5 @@
 # This code extracts turning point features from the '工步层' or the workstep layer file.
-# Standard Case (Data used in this article): 5-50% SOC, 5s Pulse time or pulse width, U1-U21.
+# In our publication: 5-50% SOC, 5s Pulse time or pulse width, U1-U21.
 # This version contains illustration for case adjustment and relative implementation revision.
 # 20240618 at TBSI.
 
@@ -17,18 +17,18 @@ save_folder = 'D:/BaiduSyncdisk/实验数据集合/力景数据代码上传/' + 
 
 # Adjustable turning point features extraction
 # Must be consistent with the settings in step_3_feature collection.py !!!
-soc_to_extract = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50] # Standard Case: 5-50% SOC
+soc_to_extract = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50] # In our publication: 5-50% SOC
     # Recommended within {5, 10, ..., 50}, as batteries with low SOH may not tested with 55% or higher SOC.
     # Adjustable within {5, 10, ..., 90}.
     # Can be non-adjacent.
     # Arranging in ascending order is recommended, but not mandatory.
     # Not including duplicate content is required.
-pt_to_extract = [5] # Standard Case: 5s
+pt_to_extract = [5] # In our publication: 5s
     # Adjustable within {0.03, 0.05, 0.07, 0.1, 0.3, 0.5, 0.7, 1, 3, 5}.
     # Can be non-adjacent.
     # Arranging in ascending order is recommended, but not mandatory.
     # Not including duplicate content is required.
-U_to_extract = range(1,21 +1) # Standard Case: U1-U21
+U_to_extract = range(1,21 +1) # In our publication: U1-U21
     # Adjustable within {1, 2, ..., 41}.
     # Can be non-adjacent.
     # Arranging in ascending order is recommended, but not mandatory.
