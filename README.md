@@ -17,7 +17,7 @@ Retired batteries exhibit considerable heterogeneities in cathode material types
 NMC stands for lithium nickel manganese cobalt oxide. LMO stands for lithium manganese oxide. LFP stands for lithium iron phosphate.
 #### SOH Distribution
 <p align="center">
-  <img src="SOH Distribution.png" alt="SOH Distribution">
+  <img src="Resources/SOH Distribution.png" alt="SOH Distribution">
 </p>  
 
 ## 2.2. Experiment Details
