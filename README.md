@@ -175,7 +175,7 @@ soc_to_extract = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50] # In our publication: 5
     # and the order of worksheet 'SOCi' in the processed data file
     # are decided by element order here.
 ~~~
-In this dataset, each battery has completed pulse test at 5-50% SOC level. However, considering the SOH distribution and our SOC definition for 10Ah LMO, 21Ah NMC and 35Ah LFP batteries, the higher the SOC level, the fewer samples can be extracted. Moreover, pay attention to the [SOC Deviation](#soc-deviation) issue if you include high SOC level or use the 'SOCR' item rather than the 'SOC' in processed data to train machine learning models, as 'SOCR' is a more accurate value based on accumulated net charged capacity from statistics in the workstep layer.
+In this dataset, each battery has completed pulse test at 5-50% SOC level. However, considering the SOH distribution and our SOC definition for 10Ah LMO, 21Ah NMC and 35Ah LFP batteries, the higher the SOC level, the fewer samples can be extracted. Moreover, pay attention to the [SOC Deviation](#soc-deviation) issue if you include high SOC level or use the 'SOCR' item rather than the 'SOC' item in processed data to train machine learning models, as 'SOCR' is a more accurate value based on accumulated net charged capacity from statistics in the workstep layer.
 #### 4.4.2. Pulse Width
 ~~~python
 pt_to_extract = [5] # In our publication: 5s
