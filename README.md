@@ -94,10 +94,13 @@ NMC_C_21_B_14_SOC_5-90_Part_2-2_ID_02LCC02100101A87Y0026421.xlsx
 LFP_C_35_B_56_SOC_5-90_Part_1-2_ID_56号.xlsx  
 
 **Instance:** LMO_C_10_B_1_SOC_5-55_Part_1-1_ID_PIP15828A00225770.xlsx refer to the testing of LMO 10Ah battery with index 1 (also indexed by the unique ID: PIP15828A00225770), where the testing SOC region is from 5% to 55%. The testing have 1 out of 1 file.
+
 #### File Split Explanation
 Sometimes the raw data is split into 2 parts due to the ultra long measurement time and ultra large file size.
 
 **Instance:** NMC_C_21_B_14_SOC_5-90_Part_1-2_ID_02LCC02100101A87Y0026421.xlsx refer to the testing of NMC 21Ah battery with index 14 (also indexed by the unique ID: 02LCC02100101A87Y0026421), where the testing SOC region is from 5% to 90%. The testing file is the first file 1 out of 2 files.
+
+If the raw data is split into 2 parts, the workstep layer (i.e. '工步层'), which is used in [our publication](To be published), will always be placed in the first part.  
 ## 4. Feature Engineering
 ### 4.1. Features Selection Dimensions
 #### 4.1.1. SOC
@@ -108,13 +111,31 @@ We performed multiple consecutive pulse injections with different pulse widths. 
 We performed multiple consecutive pulse injections with different pulse amplitudes. Selectable pulse amplitudes include 0.5C, 1C, 1.5C, 2C, 2.5C, which are consistent with as described in [Experimental Details](#step-3--pulse-injection). Features are extracted from turning points, i.e. the points at the beginning and end of pulse injection and rest workstep on the voltage response curve. For simplicity, We use U1-U41 to represent pulse amplitudes. U1 is the steady state open cicrcuit voltage (OCV) after 10 mins rest. U2-U9 refers to voltage at the beginning and end of 0.5C positive pulse, rest, 0.5C negative pulse, rest, respectively. Similarly, U10-U17, U18-U25, U26-U33 and U34-U41 refers to that of 1C, 1.5C, 2C and 2.5C, respectively. Note that the term C stands for charge (discharge) rate when a 1 hour of charge (discharge) is performed. The ambient temperature is controlled at 25 ℃.  
 ### 4.2. Features Used in our Publication
 We extracted U1-U21 features under 5-50% SOC, 5s pulse width for [our publication](To be published). The rest time between each pulse is 75s. U1 is the steady state open cicrcuit voltage (OCV) after 10 mins rest. U2-U9 refers to voltage at the beginning and end of 0.5C positive pulse, rest, 0.5C negative pulse, rest, respectively. Similarly, U10-U17 refers to voltage at the beginning and end of 1C positive pulse, rest, 1C negative pulse, rest, respectively. U18-U21 refers to voltage at the beginning and end of 1C positive pulse, rest, respectively.  
-
-<p align="center">
-  <img src="Feature U1-U21 Description.png" alt="Feature U1-U21 Description">
-</p>
-
 ### 4.3. Reproduction
-Feature engineering starting from raw data requires three steps. For reproduction, download the [raw data](https://zenodo.org/uploads/11671216) and programs for [Step 1](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_1_extract%20workstep%20sheet.py), [Step 2](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_2_feature%20extraction_adjustable.py), [Step 3](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_3_feature%20collection_adjustable.py) in this repository. Manually create folders for each step and subfolders for each battery type to store processing and processed data. Update folder addresses in each program. Adjust the cap_mat variable in the program and run to reproduce the feature engineering results of different battery types. All possible adjustments are listed at the top of each program. Then you will have [extracted features](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/ProcessedData_adjustable_2.1Ah%2010Ah%2021Ah%2035Ah.zip) from 10Ah LMO, 21Ah NMC, 35Ah LFP.  
+Feature engineering starting from raw data requires three steps. For reproduction, download the [raw data](https://zenodo.org/uploads/11671216) and programs for [Step 1](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_1_extract%20workstep%20sheet.py), [Step 2](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_2_feature%20extraction_adjustable.py), [Step 3](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/step_3_feature%20collection_adjustable.py) in this repository.  
+Manually create folders for each step and subfolders for each battery type to store processing and processed data. Update folder addresses in each program. Adjust the cap_mat variable in the program and run to reproduce the feature engineering results of different battery types. All possible adjustments are listed at the top of each program.  
+#### Recommanded Folder Sturcture
+- yourplace/
+  - RawData/
+    - 10Ah LMO/
+    - 21Ah NMC/
+    - 35Ah LFP/
+  - ProcessingData/
+    - step_1_extract workstep sheet/
+      - 10Ah LMO/
+      - 21Ah NMC/
+      - 35Ah LFP/
+    - step_2_feature extraction_adjustable/
+      - 10Ah LMO/
+      - 21Ah NMC/
+      - 35Ah LFP/
+  - ProcessedData/
+    - 2.1Ah NMC/
+    - 10Ah LMO/
+    - 21Ah NMC/
+    - 35Ah LFP/
+
+Then you will have [extracted features](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/ProcessedData_adjustable_2.1Ah%2010Ah%2021Ah%2035Ah.zip) from 10Ah LMO, 21Ah NMC, 35Ah LFP.  
 
 Specificly,  
 
@@ -143,7 +164,7 @@ NMC_15Ah_W_5000.xlsx
 NMC_21Ah_W_5000.xlsx  
 LFP_35Ah_W_5000.xlsx
 ### 4.4. Adjustability: Features of Different Hyperparameters
-We extracted U1-U21 features under 5-50% SOC, 5s pulse time or pulse width for [our publication](To be published). Moreover, our feature engineering codes have strong scalability. You can adjust the settings at the top of programs of step 2 and step 3 to extract different features. No need to perform step 1 again if reproduction completed once. Remember to keep the settings of the second and third steps consistent.
+We extracted U1-U21 features under 5-50% SOC, 5s pulse time or pulse width for [our publication](To be published). Moreover, our feature engineering codes have strong scalability. You can adjust the settings at the top of programs of step 2 and step 3 to extract different features. No need to perform step 1 again if reproduction completed once. Remember to keep the settings in the programs of step 2 and step 3 consistent.
 #### 4.4.1. SOC
 ~~~python
 soc_to_extract = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50] # In our publication: 5-50% SOC
@@ -152,7 +173,11 @@ soc_to_extract = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50] # In our publication: 5
     # Can be non-adjacent.
     # Arranging in ascending order is recommended, but not mandatory.
     # Not including duplicate content is required.
+    # The order of samples recording in the processing file after step 2
+    # and the order of worksheet 'SOCi' in the processed data file
+    # are decided by element order here.
 ~~~
+In this dataset, each battery has completed pulse test at 5-50% SOC level. However, considering the SOH distribution and our SOC definition for 10Ah LMO, 21Ah NMC and 35Ah LFP batteries, the higher the SOC level, the fewer samples can be extracted.  
 #### 4.4.2. Pulse Width
 ~~~python
 pt_to_extract = [5] # In our publication: 5s
@@ -160,6 +185,8 @@ pt_to_extract = [5] # In our publication: 5s
     # Can be non-adjacent.
     # Arranging in ascending order is recommended, but not mandatory.
     # Not including duplicate content is required.
+    # The order of samples recording in the processing file after step 2
+    # is decided by element order here.
 ~~~
 #### 4.4.3. Pulse Amplitude
 ~~~python
@@ -168,14 +195,14 @@ U_to_extract = range(1,21 +1) # In our publication: U1-U21
     # Can be non-adjacent.
     # Arranging in ascending order is recommended, but not mandatory.
     # Not including duplicate content is required.
+    # The order of features recording within each samples
+    # is decided by element order here.
     # U1: steady state open cicrcuit voltage (OCV) after 10 mins rest
     # U2-U9: voltage at the beginning and end of 0.5C positive pulse, rest, 0.5C negative pulse and rest.
     # U10-U17: 1C. # U18-U25: 1.5C. # U26-U33: 2C. # U34-U41: 2.5C.
 ~~~
-
-
-step 3 有多少个表是根据人选的决定的，有些表里面可能是空的，表示没在那一步做成功过实验。
-
+#### 4.4.4. Compared with Reproduction
+Compared with [Reproduction](#-4-3-1-step-1), 
 # 5. Access
 Access the raw data and processed features [here](https://zenodo.org/uploads/11671216) under the [MIT licence](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/LICENSE). Correspondence to [Terence (Shengyu) Tao](mailto:terencetaotbsi@gmail.com) and CC Prof. [Xuan Zhang](mailto:xuanzhang@sz.tsinghua.edu.cn) and [Guangmin Zhou](mailto:guangminzhou@sz.tsinghua.edu.cn) when you use, or have any inquiries.
 # 6. Acknowledgements
