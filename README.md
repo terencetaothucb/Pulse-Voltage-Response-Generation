@@ -140,7 +140,7 @@ Manually create folders for each step and subfolders for each battery type to st
     - 21Ah NMC/
     - 35Ah LFP/
 
-Then you will have [extracted features](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/ProcessedData_adjustable_2.1Ah%2010Ah%2021Ah%2035Ah.zip) from 10Ah LMO, 21Ah NMC and 35Ah LFP.  
+Then you will have [extracted features](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/tree/main/ProcessedData_adjustable) from 10Ah LMO, 21Ah NMC and 35Ah LFP.  
 
 Specificly,  
 
