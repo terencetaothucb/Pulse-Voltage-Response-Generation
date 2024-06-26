@@ -9,10 +9,10 @@ import pandas as pd
 # Replace according to battery type !!!
 cap_mat = '10Ah LMO'
 # Replace according to your file path !!!
-# Create the folder manually in advance !!!
+# Create the folder manually in advance !!!                      # To be created     # To be created                    # 3 Subfolders to be created
 source_folder = 'D:/BaiduSyncdisk/实验数据集合/力景数据代码上传/' + 'ProcessingData/' + 'step_1_extract workstep sheet/' + cap_mat + '/'
 # Replace according to your file path !!!
-# Create the folder manually in advance !!!
+# Create the folder manually in advance !!!                                        # To be created                           # 3 Subfolders to be created
 save_folder = 'D:/BaiduSyncdisk/实验数据集合/力景数据代码上传/' + 'ProcessingData/' + 'step_2_feature extraction_adjustable/' + cap_mat + '/'
 
 # Adjustable turning point features extraction
@@ -22,17 +22,24 @@ soc_to_extract = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50] # In our publication: 5
     # Adjustable within {5, 10, ..., 90}.
     # Can be non-adjacent.
     # Arranging in ascending order is recommended, but not mandatory.
-    # Not including duplicate content is required.
+    # Duplicate content must be avoided.
+    # The order of samples recording in the processing file after step 2
+    # and the order of worksheet 'SOCi' in the processed data file
+    # are decided by element order here.
 pt_to_extract = [5] # In our publication: 5s
     # Adjustable within {0.03, 0.05, 0.07, 0.1, 0.3, 0.5, 0.7, 1, 3, 5}.
     # Can be non-adjacent.
     # Arranging in ascending order is recommended, but not mandatory.
-    # Not including duplicate content is required.
+    # Duplicate content must be avoided.
+    # The order of samples recording in the processing file after step 2
+    # is decided by element order here.
 U_to_extract = range(1,21 +1) # In our publication: U1-U21
     # Adjustable within {1, 2, ..., 41}.
     # Can be non-adjacent.
     # Arranging in ascending order is recommended, but not mandatory.
-    # Not including duplicate content is required.
+    # Duplicate content must be avoided.
+    # The order of features recording within each samples
+    # is decided by element order here.
     # U1: steady state open cicrcuit voltage (OCV) after 10 mins rest
     # U2-U9: voltage at the beginning and end of 0.5C positive pulse, rest, 0.5C negative pulse and rest.
     # U10-U17: 1C. # U18-U25: 1.5C. # U26-U33: 2C. # U34-U41: 2.5C.
@@ -98,7 +105,7 @@ for f in xlsx_files:
 
             # Ensure that it will not read more than the actual number of rows or steps
             U_row_num_max = 5-1 + (10*5*4+2)*soc_ith + 2 + 5*4*pt_ith + max(U_to_extract) // 2
-                # Due to security concern and voltage protection, some batteries failed to complete all planed pulse tests with various SOC, pulse time and pulse current amplitude.
+                # Due to security concern and voltage protection, some batteries failed to complete all planed pulse tests with different pulse current amplitude at same SOC level and with same pulse time.
                 # If the experiemnt stop at step i corresponding to U(j) and U(j+1) with certain SOC, pulse time and pulse current amplitude:
                 # In this version for adjustability:
                     # If all U(k) in U_to_extract satisfies k <= j+1, all required features in U_to_extract at this SOC, pulse time and pulse current amplitude will be recorded.

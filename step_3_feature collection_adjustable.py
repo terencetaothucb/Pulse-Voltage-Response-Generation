@@ -11,7 +11,7 @@ mat_inf = 'LMO_10Ah_W_'
 # Create the folder manually in advance !!!
 source_folder = 'D:/BaiduSyncdisk/实验数据集合/力景数据代码上传/' + 'ProcessingData/' + 'step_2_feature extraction_adjustable/' + cap_mat + '/'
 # Replace according to your file path !!!
-# Create the folder manually in advance !!!
+# Create the folder manually in advance !!!                    # To be created               # 3 Subfolders to be created
 save_folder = 'D:/BaiduSyncdisk/实验数据集合/力景数据代码上传/' + 'ProcessedData_adjustable/' + cap_mat + '/'
 
 # Must be consistent with the settings in step_2 !!!
