@@ -202,7 +202,7 @@ U_to_extract = range(1,21 +1) # In our publication: U1-U21
     # U10-U17: 1C. # U18-U25: 1.5C. # U26-U33: 2C. # U34-U41: 2.5C.
 ~~~
 #### 4.4.4. Compared with Reproduction
-Compared with [Reproduction](#-4-3-1-step-1), 
+Compared with [Reproduction](#4-3-1-step-1), 
 # 5. Access
 Access the raw data and processed features [here](https://zenodo.org/uploads/11671216) under the [MIT licence](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/LICENSE). Correspondence to [Terence (Shengyu) Tao](mailto:terencetaotbsi@gmail.com) and CC Prof. [Xuan Zhang](mailto:xuanzhang@sz.tsinghua.edu.cn) and [Guangmin Zhou](mailto:guangminzhou@sz.tsinghua.edu.cn) when you use, or have any inquiries.
 # 6. Acknowledgements
