@@ -195,7 +195,7 @@ U_to_extract = range(1,21 +1) # In our publication: U1-U21
     # U10-U17: 1C. # U18-U25: 1.5C. # U26-U33: 2C. # U34-U41: 2.5C.
 ~~~
 #### 4.4.4. Compared with Reproduction
-Compared with [Reproduction](#431-step-1-extract-workstep-sheet), the results of feature engineering will change due to adjustability. Assume there are X elements in `soc_to_extract` and Y elements in `pt_to_extract`. There will be at most X * Y samples from a battery in each file after step 2. The size of each file after step 2 may also be different. After step 3, you will receive Y files. The naming convention is as follows. Each file you receive will contain X + 1 worksheets. The first worksheet 'SOC ALL' contains features under all SOC conditions. Subsequent X worksheets 'SOCi' include features under a single SOC condition, separately. In each worksheets, there are as many samples as the quantity of batteries of that type at most.  
+Compared with [Reproduction](#431-step-1--extract-workstep-sheet), the results of feature engineering will change due to adjustability. Assume there are X elements in `soc_to_extract` and Y elements in `pt_to_extract`. There will be at most X * Y samples from a battery in each file after step 2. The size of each file after step 2 may also be different. After step 3, you will receive Y files. The naming convention is as follows. Each file you receive will contain X + 1 worksheets. The first worksheet 'SOC ALL' contains features under all SOC conditions. Subsequent X worksheets 'SOCi' include features under a single SOC condition, separately. In each worksheets, there are as many samples as the quantity of batteries of that type at most.  
 #### Processed Data Filename Format
 mat_cap_Ah_W_pulse width(ms unit).xlsx  
 #### Example
