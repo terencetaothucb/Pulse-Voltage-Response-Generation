@@ -29,12 +29,14 @@ The experiment is divided into the following three steps: capacity calibration, 
 ### 2.2.1. Step 1 : Capacity Calibration
 We use the widely-adopted constant current (CC) discharge method as the gold standard for determining the capacity of retired batteries. Even considering the different initial state of charge (SOC) distributions of retired batteries, we use a unified method of first constant current constant voltage (CCCV) charging and then CC discharging to determine the capacity of retired batteries.  
 First, the retired batteries are charged to the upper cut-off voltage using a 1C constant current, then charged using constant voltage until the current drops to 0.05 C.  The batteries are then discharged to the lower cut-off voltage using a 1C constant current. We use the actual discharge capacity as the calibrated (true) battery capacity and then let the battery rest for 20 minutes before SOC conditioning and pulse injection. Here the term C refers to the C-rate, determined by the current value required by a 1h full charge or discharge of a battery. The sampling frequency during step 1 is 1 Hz.  
-Cathode Material|Nominal Capacity (Ah)|Cut-Off Voltage for Dis/Charging (V)|
-|:--|:--|:--|
-|LMO|10|2.0/4.2|
-|NMC|15|2.7/4.2|
-|NMC|21|2.7/4.2|
-|LFP|35|2.5/3.65|
+|Batch|Cathode Material|Nominal Capacity (Ah)|Cut-Off Voltage for Dis/Charging (V)|
+|:--|:--|:--|:--|
+|1|LMO|10|2.0/4.2|
+|1|NMC|15|2.7/4.2|
+|1|NMC|21|2.7/4.2|
+|1|LFP|35|2.5/3.65|
+|2|LMO|25|2.7/4.2|
+|2|LMO|26|2.7/4.2|
 ### 2.2.2. Step 2 : SOC Conditioning
 SOC conditioning refers to adjusting the battery SOC to a desired level, necessitated by the fact that retired batteris are of random SOC distributions upon the collection. When the capacity calibration is finished, the battery is at its zero SOC. When a 5% SOC is desired, we use a 1C constant current for 3 minutes to adjust the calibrated battery to a 5% SOC level. The battery is then left to stand for 10 minutes to rest, expecting the battery to return to a steady state in preparation for subsequent pulse injection. Notice that SOC here is defined as the ratio of charged or dischargeable capacity to the nominal capacity. The sampling frequency during step 2 is 1 Hz.  
 ### 2.2.3. Step 3 : Pulse Injection
@@ -75,12 +77,14 @@ The range of SOC conditioning is determined by a calibrated SOH of the retired b
 The planned SOC range is recorded with a [fixed format on the file name](#31-file-name) of each battery.  
 #### Protection Voltage
 We set protection voltage during pulse injection to ensure safety. The specific protection voltage parameters are consistent with those in the following Table.  
-Cathode Material|Nominal Capacity (Ah)|Discharge/Charge (V)|
-|:--|:--|:--|
-|LMO|10|1.95/4.3|
-|NMC|15|2.65/4.25|
-|NMC|21|2.65/4.3|
-|LFP|35|2.45/3.7|
+|Batch|Cathode Material|Nominal Capacity (Ah)|Discharge/Charge (V)|
+|:--|:--|:--|:--|
+|1|LMO|10|1.95/4.3|
+|1|NMC|15|2.65/4.25|
+|1|NMC|21|2.65/4.3|
+|1|LFP|35|2.45/3.7|
+|2|LMO|25|2.65/4.25|
+|2|LMO|26|2.65/4.25|
 
 If the oscillation voltage during pulse injection exceeds the protection range, the current charging or discharging workstep will be immediately terminated for physical security check. If the security check is passed, no time will be made up for the already terminated workstep, but the remaining worksteps in test procedure will be continued. In our test, voltage is mainly possible to exceed the protection range during charging, and no cases of below the protection range during discharge have been found.
 #### SOC Deviation
