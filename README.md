@@ -5,16 +5,18 @@ Retired batteries have been presenting a severe sustainability challenge worldwi
 [Generative-learning-assisted Rapid State-of-Health Estimation for Sustainable Battery Recycling with Random Retirement Conditions](To be published)
 # 2. Description
 ## 2.1. Overview
-Retired batteries exhibit considerable heterogeneities in cathode material types, historical usages, physical formats and capacity designs. We physically tested 270 retired lithium-ion batteries, covering 3 cathode types, 4 historical usages, 3 physical formats, and 4 capacity designs.
+Retired batteries exhibit considerable heterogeneities in cathode material types, historical usages, physical formats and capacity designs. We physically tested 464 retired lithium-ion batteries, covering 3 cathode types, 6 historical usages, 3 physical formats, and 6 capacity designs.
 #### Battery Types
-|Cathode Material|Nominal Capacity (Ah)|Physical Format|Historical Usage|Quantity|
-|:--|:--|:--|:--|:--|
-|NMC|2.1|Cylinder|Lab Accelerated Aging|67 (from 12 physical batteries)|
-|LMO|10|Pouch|HEV1|95|
-|NMC|21|Pouch|BEV1|52|
-|LFP|35|Square Aluminum Shell|HEV2|56|
+|Batch|Cathode Material|Nominal Capacity (Ah)|Physical Format|Historical Usage|Quantity|
+|:--|:--|:--|:--|:--|:--|
+|1|NMC|2.1|Cylinder|Lab Accelerated Aging|67 (from 12 physical batteries)|
+|1|LMO|10|Pouch|HEV1|95|
+|1|NMC|21|Pouch|BEV1|52|
+|1|LFP|35|Square Aluminum Shell|HEV2|56|
+|2|LMO|25|Pouch|PHEV1|96|
+|2|LMO|26|Pouch|HEV3|98|
 
-NMC stands for lithium nickel manganese cobalt oxide. LMO stands for lithium manganese oxide. LFP stands for lithium iron phosphate.
+Batch 1 is for model establishment. Batch 2 is for model validation. NMC stands for lithium nickel manganese cobalt oxide. LMO stands for lithium manganese oxide. LFP stands for lithium iron phosphate.
 #### SOH Distribution
 <p align="center">
   <img src="Resources/SOH Distribution.png" alt="SOH Distribution">
