@@ -24,7 +24,7 @@ Batch 1 is for model establishment. Batch 2 is for model validation. NMC stands 
 
 ## 2.2. Experiment Details
 Tests were performed with BAT-NEEFLCT-05300-V010, NEBULA, Co, Ltd, and the air conditioner temperature was set at 25℃.  
-Only EV-retired batteries (LMO 10 Ah, NMC 15 Ah, NMC 21 Ah and LFP 35Ah) were subject to this test procedure. Refer to Supplementary Note 3 in Supplementary Information for experiment details of Lab Accelerated Aging batteries (NMC 2.1 Ah).  
+Only EV-retired batteries (LMO 10 Ah, NMC 21 Ah, LFP 35Ah, LMO 25Ah and LMO 26Ah) were subject to this test procedure. Refer to Supplementary Note 3 in Supplementary Information for experiment details of Lab Accelerated Aging batteries (NMC 2.1 Ah).  
 The experiment is divided into the following three steps: capacity calibration, SOC conditioning, and pulse injection.  
 ### 2.2.1. Step 1 : Capacity Calibration
 We use the widely-adopted constant current (CC) discharge method as the gold standard for determining the capacity of retired batteries. Even considering the different initial state of charge (SOC) distributions of retired batteries, we use a unified method of first constant current constant voltage (CCCV) charging and then CC discharging to determine the capacity of retired batteries.  
@@ -98,6 +98,8 @@ LMO_C_10_B_1_SOC_5-55_Part_1-1_ID_PIP15828A00225770.xlsx
 NMC_C_21_B_14_SOC_5-90_Part_1-2_ID_02LCC02100101A87Y0026421.xlsx  
 NMC_C_21_B_14_SOC_5-90_Part_2-2_ID_02LCC02100101A87Y0026421.xlsx  
 LFP_C_35_B_56_SOC_5-90_Part_1-2_ID_56号.xlsx  
+LMO_C_25_B_101_SOC_5-50_Part_1-1_ID_515092901207.xlsx  
+LMO_C_26_B_29_SOC_5-90_Part_2-2_ID_H27735291063.xlsx  
 
 **Instance:** LMO_C_10_B_1_SOC_5-55_Part_1-1_ID_PIP15828A00225770.xlsx refer to the testing of LMO 10Ah battery with index 1 (also indexed by the unique ID: PIP15828A00225770), where the testing SOC region is from 5% to 55%. The testing have 1 out of 1 file.
 
@@ -131,22 +133,30 @@ Manually create folders for each step and subfolders for each battery type to st
     - 10Ah LMO/
     - 21Ah NMC/
     - 35Ah LFP/
+    - 25Ah LMO/
+    - 26Ah LMO/
   - ProcessingData/
     - step_1_extract workstep sheet/
       - 10Ah LMO/
       - 21Ah NMC/
       - 35Ah LFP/
+      - 25Ah LMO/
+      - 26Ah LMO/
     - step_2_feature extraction_adjustable/
       - 10Ah LMO/
       - 21Ah NMC/
       - 35Ah LFP/
+      - 25Ah LMO/
+      - 26Ah LMO/
   - ProcessedData/
     - 2.1Ah NMC/
     - 10Ah LMO/
     - 21Ah NMC/
     - 35Ah LFP/
+    - 25Ah LMO/
+    - 26Ah LMO/
 
-Then you will have [extracted features](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/tree/main/ProcessedData_adjustable) from 10Ah LMO, 21Ah NMC and 35Ah LFP.  
+Then you will have [extracted features](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/tree/main/ProcessedData_adjustable) from LMO 10Ah, NMC 21Ah, LFP 35Ah, LMO 25Ah, LMO 26Ah.  
 
 Specificly,  
 
@@ -158,9 +168,18 @@ mat_C_cap_B_no.\_SOC_soc range lower bound-soc range upper bound_Part\_**1**-of 
 LMO_C_10_B_1_SOC_5-55_Part_**1**-1_ID_PIP15828A00225770.xlsx  
 NMC_C_21_B_14_SOC_5-90_Part_**1**-2_ID_02LCC02100101A87Y0026421.xlsx  
 LFP_C_35_B_56_SOC_5-90_Part_**1**-2_ID_56号.xlsx  
+LMO_C_25_B_101_SOC_5-50_Part_**1**-1_ID_515092901207.xlsx  
+LMO_C_26_B_29_SOC_5-90_Part_**1**-2_ID_H27735291063.xlsx  
+  
 #### Notice
-Due to unknown reasons, the raw data of battery PIP15827A00221240 (10Ah LMO, No.2) has one more rest (i.e., '静置') step than normal. This issue will not affect reproduction, so you can temporarily skip the following operations in this notice. 
-However, to ensure the correctness of further adjustable feature extraction, please manually merge row 2020 (the first rest (i.e., '静置') step) and 2021 (the second rest (i.e., '静置') step) in the extracted workstep layer file LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx after completing step 1 and before step 2. In detail, copy the column K element (3.9837) of row 2020 to replace the column K element of row 2021, then delete row 2020. If you feel that doing so is too troublesome, you can replace the local file with [this edited version](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Unexpected%20Situations%20Handling/LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx). Or you can choose to discard battery PIP15827A00221240 directly by deleteing the raw data file before step 1 or the workstep layer file after step 1, both named LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx.  
+Due to unknown reasons, the raw data of battery PIP15827A00221240 (10Ah LMO, No.2) has one more rest (i.e., '静置') step than normal.  This issue occurred when the pulse test reached 50% SOC, 5s pulse width, 2C pulse amplitude. This issue will not affect reproduction, so you can temporarily skip the following operations in this notice. However, to ensure the correctness of further adjustable feature extraction, please manually merge row 2020 (the first rest (i.e., '静置') step) and 2021 (the second rest (i.e., '静置') step) in the extracted workstep layer file LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx after completing step 1 and before step 2. In detail, copy the column K element (3.9837) of row 2020 to replace the column K element of row 2021, then delete row 2020. If you feel that doing so is too troublesome, you can replace the local file with [this edited version](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Unexpected%20Situations%20Handling/LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx). Or you can choose to discard battery PIP15827A00221240 directly by deleteing the raw data file before step 1 or the workstep layer file after step 1, both named LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx.  
+Due to voltage protection mechanism, the raw data of battery 515091902419 (25Ah LMO, No.17) misses one rest (i.e., '静置') step compared to normal. This issue occurred when the pulse test reached 50% SOC, 0.5s pulse width, 2.5C pulse amplitude. To ensure the correctness of further adjustable feature extraction, please add a empty row as new row 1944 just after row 1943 (the charge (i.e., '充电') step) in the extracted workstep layer file LMO_C_25_B_17_SOC_5-55_Part_1-1_ID_515091902419.xlsx after completing step 1 and before step 2. If you feel that doing so is too troublesome, you can replace the local file with [this edited version](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Unexpected%20Situations%20Handling/LMO_C_25_B_17_SOC_5-55_Part_1-1_ID_515091902419.xlsx). Or you can choose to discard battery 515091902419 directly by deleteing the raw data file before step 1 or the workstep layer file after step 1, both named LMO_C_25_B_17_SOC_5-55_Part_1-1_ID_515091902419.xlsx.  
+Due to voltage protection mechanism, the raw data of battery 515093002348 (25Ah LMO, No.24) misses one rest (i.e., '静置') step compared to normal. This issue occurred when the pulse test reached 75% SOC, 0.7s pulse width, 2.5C pulse amplitude and 75% SOC, 1s pulse width, 2.5C pulse amplitude. To ensure the correctness of further adjustable feature extraction, please add a empty row as new row 2974 and 2994 just after row 2973 and 2992 (the charge (i.e., '充电') step) in the extracted workstep layer file LMO_C_25_B_24_SOC_5-75_Part_1-1_ID_515093002348.xlsx after completing step 1 and before step 2. If you feel that doing so is too troublesome, you can replace the local file with [this edited version](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Unexpected%20Situations%20Handling/LMO_C_25_B_24_SOC_5-75_Part_1-1_ID_515093002348.xlsx). Or you can choose to discard battery 515093002348 directly by deleteing the raw data file before step 1 or the workstep layer file after step 1, both named LMO_C_25_B_24_SOC_5-75_Part_1-1_ID_515093002348.xlsx.  
+Due to voltage protection mechanism, the raw data of battery 515092501338 (25Ah LMO, No.28) misses one rest (i.e., '静置') step compared to normal. This issue occurred when the pulse test reached 45% SOC, 0.07s pulse width, 2.5C pulse amplitude and 45% SOC, 0.1s pulse width, 2.5C pulse amplitude. To ensure the correctness of further adjustable feature extraction, please add a empty row as new row 1682 and 1702 just after row 1681 and 1700 (the charge (i.e., '充电') step) in the extracted workstep layer file LMO_C_25_B_28_SOC_5-50_Part_1-1_ID_515092501338.xlsx after completing step 1 and before step 2. If you feel that doing so is too troublesome, you can replace the local file with [this edited version](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Unexpected%20Situations%20Handling/LMO_C_25_B_28_SOC_5-50_Part_1-1_ID_515092501338.xlsx). Or you can choose to discard battery 515092501338 directly by deleteing the raw data file before step 1 or the workstep layer file after step 1, both named LMO_C_25_B_28_SOC_5-50_Part_1-1_ID_515092501338.xlsx.  
+Due to voltage protection mechanism, the raw data of battery 515093002151 (25Ah LMO, No.32) misses one rest (i.e., '静置') step compared to normal. This issue occurred when the pulse test reached 55% SOC, 0.03s pulse width, 2.5C pulse amplitude. To ensure the correctness of further adjustable feature extraction, please add a empty row as new row 2046 just after row 2045 (the charge (i.e., '充电') step) in the extracted workstep layer file LMO_C_25_B_32_SOC_5-55_Part_1-1_ID_515093002151.xlsx after completing step 1 and before step 2. If you feel that doing so is too troublesome, you can replace the local file with [this edited version](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Unexpected%20Situations%20Handling/LMO_C_25_B_32_SOC_5-55_Part_1-1_ID_515093002151.xlsx). Or you can choose to discard battery 515093002151 directly by deleteing the raw data file before step 1 or the workstep layer file after step 1, both named LMO_C_25_B_32_SOC_5-55_Part_1-1_ID_515093002151.xlsx.  
+Due to voltage protection mechanism, the raw data of battery 515093000552 (25Ah LMO, No.45) misses one rest (i.e., '静置') step compared to normal. This issue occurred when the pulse test reached 60% SOC, 0.1s pulse width, 2.5C pulse amplitude. To ensure the correctness of further adjustable feature extraction, please add a empty row as new row 2308 just after row 2307 (the charge (i.e., '充电') step) in the extracted workstep layer file LMO_C_25_B_45_SOC_5-55_Part_1-1_ID_515093000552.xlsx after completing step 1 and before step 2. If you feel that doing so is too troublesome, you can replace the local file with [this edited version](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Unexpected%20Situations%20Handling/LMO_C_25_B_45_SOC_5-55_Part_1-1_ID_515093000552.xlsx). Or you can choose to discard battery 515093000552 directly by deleteing the raw data file before step 1 or the workstep layer file after step 1, both named LMO_C_25_B_45_SOC_5-55_Part_1-1_ID_515093000552.xlsx.  
+Due to voltage protection mechanism, the raw data of battery 515092901207 (25Ah LMO, No.101) misses one rest (i.e., '静置') step compared to normal. This issue occurred when the pulse test reached 50% SOC, 0.03s pulse width, 2.5C pulse amplitude. To ensure the correctness of further adjustable feature extraction, please add a empty row as new row 1844 just after row 1843 (the charge (i.e., '充电') step) in the extracted workstep layer file LMO_C_25_B_101_SOC_5-50_Part_1-1_ID_515092901207.xlsx after completing step 1 and before step 2. If you feel that doing so is too troublesome, you can replace the local file with [this edited version](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Unexpected%20Situations%20Handling/LMO_C_25_B_101_SOC_5-50_Part_1-1_ID_515092901207.xlsx). Or you can choose to discard battery 515092901207 directly by deleteing the raw data file before step 1 or the workstep layer file after step 1, both named LMO_C_25_B_101_SOC_5-50_Part_1-1_ID_515092901207.xlsx.  
+Due to voltage protection mechanism, the raw data of battery 515093001608 (25Ah LMO, No.155) misses one rest (i.e., '静置') step compared to normal. This issue occurred when the pulse test reached 45% SOC, 0.05s pulse width, 2.5C pulse amplitude and 45% SOC, 0.07s pulse width, 2.5C pulse amplitude. To ensure the correctness of further adjustable feature extraction, please add a empty row as new row 1662 and 1682 just after row 1661 and 1680 (the charge (i.e., '充电') step) in the extracted workstep layer file LMO_C_25_B_155_SOC_5-45_Part_1-1_ID_515093001608.xlsx after completing step 1 and before step 2. If you feel that doing so is too troublesome, you can replace the local file with [this edited version](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/Unexpected%20Situations%20Handling/LMO_C_25_B_155_SOC_5-45_Part_1-1_ID_515093001608.xlsx). Or you can choose to discard battery 515093001608 directly by deleteing the raw data file before step 1 or the workstep layer file after step 1, both named LMO_C_25_B_155_SOC_5-45_Part_1-1_ID_515093001608.xlsx.  
 
 #### 4.3.2. Step 2 : Feature Extraction
 **Step 2** is to extract required features from the workstep layer of each battery. Step 2 can be completed within one hour. If step 2 is correctly completed, you will get one file for each battery. There are 10 samples (5-50% SOC, in ascending order) from each battery. The information record format for each sample for each sample is listed in the following table. The size of each file after step 2 is 7 KB. The name of each file after step 2 is same with the file after step 1. A correctly reproduced example file can be seen [here](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/ProcessingData%20Example/step_2_feature%20extraction_adjustable/10Ah%20LMO/LMO_C_10_B_2_SOC_5-55_Part_1-1_ID_PIP15827A00221240.xlsx).  
@@ -181,7 +200,7 @@ soc_to_extract = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50] # In our publication: 5
     # and the order of worksheet 'SOCi' in the processed data file
     # are decided by element order here.
 ~~~
-In this dataset, each battery has completed pulse test at 5-50% SOC level. However, considering the SOH distribution and our SOC definition for 10Ah LMO, 21Ah NMC and 35Ah LFP batteries, the higher the SOC level, the fewer samples can be extracted. Moreover, pay attention to the [SOC Deviation](#soc-deviation) issue if you include high SOC level or use the 'SOCR' item rather than the 'SOC' item in processed data to train machine learning models, as 'SOCR' is a more accurate value based on accumulated net charged capacity from statistics in the workstep layer.
+In this dataset, each battery has completed pulse test at 5-50% SOC level. However, considering the SOH distribution and our SOC definition for LMO 10Ah, NMC 21Ah and LFP 35Ah batteries, the higher the SOC level, the fewer samples can be extracted. Moreover, pay attention to the [SOC Deviation](#soc-deviation) issue if you include high SOC level or use the 'SOCR' item rather than the 'SOC' item in processed data to train machine learning models, as 'SOCR' is a more accurate value based on accumulated net charged capacity from statistics in the workstep layer.
 #### 4.4.2. Pulse Width
 ~~~python
 pt_to_extract = [5] # In our publication: 5s
@@ -212,7 +231,9 @@ mat_cap_Ah_W_pulse width(ms unit).xlsx
 #### Example
 LMO_10Ah_W_700.xlsx  
 NMC_21Ah_W_3000.xlsx  
-LFP_35Ah_W_5000.xlsx
+LFP_35Ah_W_5000.xlsx  
+LMO_25Ah_W_1000.xlsx  
+LMO_26Ah_W_500.xlsx  
 # 5. Access
 Access the raw data and processed features [here](https://zenodo.org/uploads/13360631) under the [MIT licence](https://github.com/terencetaothucb/Pulse-Voltage-Response-Generation/blob/main/LICENSE). Correspondence to [Terence (Shengyu) Tao](mailto:terencetaotbsi@gmail.com) and CC Prof. [Xuan Zhang](mailto:xuanzhang@sz.tsinghua.edu.cn) and [Guangmin Zhou](mailto:guangminzhou@sz.tsinghua.edu.cn) when you use, or have any inquiries.
 # 6. Acknowledgements
